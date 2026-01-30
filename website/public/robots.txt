@@ -1,0 +1,6 @@
+# CivicKey robots.txt
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://civickey.ca/sitemap.xml

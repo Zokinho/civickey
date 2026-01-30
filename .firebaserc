@@ -1,0 +1,18 @@
+{
+  "projects": {
+    "default": "civickey-prod"
+  },
+  "targets": {
+    "civickey-prod": {
+      "hosting": {
+        "admin": [
+          "civickey-admin"
+        ],
+        "main": [
+          "civickey-main"
+        ]
+      }
+    }
+  },
+  "etags": {}
+}

@@ -1,0 +1,33 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+
+    // Helper: Check if user is authenticated
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    // ============================================
+    // MUNICIPALITY FILES
+    // ============================================
+
+    match /municipalities/{municipalityId}/{allPaths=**} {
+      // Public read for logos and images (needed for app)
+      allow read: if true;
+
+      // Only authenticated users can write
+      // NOTE: Firestore rules handle the municipality assignment check
+      // Storage rules can't easily query Firestore, so we rely on
+      // the app-level check + Firestore rules for full security
+      allow write: if isAuthenticated();
+    }
+
+    // ============================================
+    // CATCH-ALL: DENY EVERYTHING ELSE
+    // ============================================
+
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}

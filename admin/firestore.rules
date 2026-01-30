@@ -1,0 +1,78 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function getAdmin() {
+      return get(/databases/$(database)/documents/admins/$(request.auth.uid)).data;
+    }
+
+    function isSuperAdmin() {
+      return isAuthenticated()
+        && exists(/databases/$(database)/documents/admins/$(request.auth.uid))
+        && getAdmin().role == 'super-admin'
+        && getAdmin().active != false;
+    }
+
+    function hasRole(municipalityId, requiredRole) {
+      let admin = getAdmin();
+      let userRole = admin.role;
+      return userRole == 'super-admin' ||
+             (admin.municipalityId == municipalityId &&
+              ((requiredRole == 'viewer') ||
+               (requiredRole == 'editor' && userRole in ['editor', 'admin']) ||
+               (requiredRole == 'admin' && userRole == 'admin')));
+    }
+
+    match /admins/{adminId} {
+      allow read: if isAuthenticated() && request.auth.uid == adminId;
+      allow read: if isSuperAdmin();
+      allow read: if isAuthenticated()
+        && exists(/databases/$(database)/documents/admins/$(request.auth.uid))
+        && getAdmin().municipalityId == resource.data.municipalityId;
+      allow create, update, delete: if isSuperAdmin();
+      allow update: if isAuthenticated()
+        && request.auth.uid == adminId
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['lastLogin']);
+    }
+
+    match /municipalities/{municipalityId} {
+      allow read: if true;
+      allow create: if isSuperAdmin();
+      allow update: if hasRole(municipalityId, 'admin');
+      allow delete: if isSuperAdmin();
+
+      match /zones/{zoneId} {
+        allow read: if true;
+        allow create, update, delete: if hasRole(municipalityId, 'admin');
+      }
+
+      match /data/{docId} {
+        allow read: if true;
+        allow create, update, delete: if hasRole(municipalityId, 'admin');
+      }
+
+      match /events/{eventId} {
+        allow read: if true;
+        allow create, update, delete: if hasRole(municipalityId, 'editor');
+      }
+
+      match /alerts/{alertId} {
+        allow read: if true;
+        allow create, update, delete: if hasRole(municipalityId, 'editor');
+      }
+
+      match /facilities/{facilityId} {
+        allow read: if true;
+        allow create, update, delete: if hasRole(municipalityId, 'editor');
+      }
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

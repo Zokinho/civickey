@@ -1,0 +1,88 @@
+{
+  "municipality": "Saint-Lazare",
+  "lastUpdated": "2026-01-17T10:00:00Z",
+  "source": "ville.saint-lazare.qc.ca",
+  "events": [
+    {
+      "id": "evt-001",
+      "title": { 
+        "en": "Camera to the Rescue Workshop", 
+        "fr": "Atelier photo - Apprivoiser son appareil" 
+      },
+      "description": {
+        "en": "Hands-on 2-hour workshop to master your digital camera. Learn to use all features and navigate menus with confidence.",
+        "fr": "Atelier pratique de 2 heures pour maîtriser votre appareil photo numérique."
+      },
+      "date": "2026-01-22",
+      "time": "19:00",
+      "endTime": "21:00",
+      "location": "Centre communautaire de Saint-Lazare",
+      "address": "1301, rue du Bois",
+      "category": "workshop",
+      "ageGroup": "18+",
+      "residents": true,
+      "maxParticipants": 20
+    },
+    {
+      "id": "evt-002",
+      "title": { 
+        "en": "Winter Caravan", 
+        "fr": "Caravane d'hiver" 
+      },
+      "description": {
+        "en": "Discover new winter sports and activities in an enchanting setting. Fun for family, friends, or solo adventurers!",
+        "fr": "Découvrez de nouveaux sports et activités d'hiver dans un cadre enchanteur. Plaisir pour toute la famille!"
+      },
+      "date": "2026-01-24",
+      "time": "10:00",
+      "endTime": "16:00",
+      "multiDay": true,
+      "endDate": "2026-01-25",
+      "location": "Parc nature les Forestiers-de-Saint-Lazare",
+      "address": "2800, chemin Lotbinière",
+      "category": "community",
+      "ageGroup": "5+",
+      "residents": false
+    },
+    {
+      "id": "evt-003",
+      "title": { 
+        "en": "Joue-Moi Une Histoire D'Hiver", 
+        "fr": "Joue-Moi Une Histoire D'Hiver" 
+      },
+      "description": {
+        "en": "Musical winter storytime for kids! Stories, songs, and percussion instruments bring tales to life.",
+        "fr": "Heure du conte musicale d'hiver pour enfants! Histoires, chansons et percussions."
+      },
+      "date": "2026-01-25",
+      "time": "10:00",
+      "endTime": "10:45",
+      "location": "Parc nature les Forestiers-de-Saint-Lazare",
+      "address": "2800, chemin Lotbinière",
+      "category": "family",
+      "ageGroup": "3-8",
+      "residents": false,
+      "maxParticipants": 20
+    },
+    {
+      "id": "evt-004",
+      "title": { 
+        "en": "Tetra Pak Engraving Workshop", 
+        "fr": "Atelier de gravure Tetra Pak" 
+      },
+      "description": {
+        "en": "Create art using Tetra Pak engraving. Design, carve, and print your own images on watercolor paper.",
+        "fr": "Créez de l'art avec la gravure Tetra Pak. Concevez, gravez et imprimez vos propres images."
+      },
+      "date": "2026-01-29",
+      "time": "13:00",
+      "endTime": "16:00",
+      "location": "Centre communautaire de Saint-Lazare",
+      "address": "1301, rue du Bois",
+      "category": "workshop",
+      "ageGroup": "18+",
+      "residents": true,
+      "maxParticipants": 15
+    }
+  ]
+}

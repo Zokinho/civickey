@@ -1,0 +1,289 @@
+{
+  "municipality": "Saint-Lazare",
+  "source": "ville.saint-lazare.qc.ca",
+  "collectionTypes": [
+    {
+      "id": "recycling",
+      "name": { "en": "Recycling", "fr": "Recyclage" },
+      "binName": { "en": "Blue Bin", "fr": "Bac bleu" },
+      "color": "#2E86AB",
+      "binSize": "360L",
+      "accepted": {
+        "en": [
+          "Metal containers",
+          "Glass containers",
+          "Plastic containers (#1-5, 7)",
+          "Paper and cardboard",
+          "Cartons (milk, juice)"
+        ],
+        "fr": [
+          "Contenants en métal",
+          "Contenants en verre",
+          "Contenants en plastique (#1-5, 7)",
+          "Papier et carton",
+          "Cartons (lait, jus)"
+        ]
+      },
+      "notAccepted": {
+        "en": [
+          "Plastic bags",
+          "Styrofoam",
+          "Electronics",
+          "Toys",
+          "Hoses, wires, Christmas lights",
+          "Soiled paper/cardboard",
+          "Food waste"
+        ],
+        "fr": [
+          "Sacs en plastique",
+          "Styromousse",
+          "Électroniques",
+          "Jouets",
+          "Boyaux, fils, lumières de Noël",
+          "Papier/carton souillé",
+          "Déchets alimentaires"
+        ]
+      },
+      "tip": {
+        "en": "Only containers, packaging, and printed paper. Must be metal, glass, plastic, paper, or cardboard.",
+        "fr": "Seulement contenants, emballages et papier imprimé. Doit être métal, verre, plastique, papier ou carton."
+      }
+    },
+    {
+      "id": "compost",
+      "name": { "en": "Compost", "fr": "Compost" },
+      "binName": { "en": "Brown Bin", "fr": "Bac brun" },
+      "color": "#8B5A2B",
+      "binSize": "80L",
+      "accepted": {
+        "en": [
+          "Fruits and vegetables",
+          "Meat, fish, bones",
+          "Dairy products",
+          "Bread, pasta, rice",
+          "Coffee grounds and filters",
+          "Soiled paper (napkins, paper towels)",
+          "Dead leaves and grass",
+          "Plants and flowers",
+          "Small branches",
+          "Animal waste and litter"
+        ],
+        "fr": [
+          "Fruits et légumes",
+          "Viande, poisson, os",
+          "Produits laitiers",
+          "Pain, pâtes, riz",
+          "Marc de café et filtres",
+          "Papier souillé (serviettes, essuie-tout)",
+          "Feuilles mortes et gazon",
+          "Plantes et fleurs",
+          "Petites branches",
+          "Déchets et litière d'animaux"
+        ]
+      },
+      "notAccepted": {
+        "en": [
+          "Plastic bags (even compostable)",
+          "Diapers",
+          "Styrofoam",
+          "Glass",
+          "Metal",
+          "Cigarette butts",
+          "Dryer sheets",
+          "Waxed cardboard"
+        ],
+        "fr": [
+          "Sacs plastique (même compostables)",
+          "Couches",
+          "Styromousse",
+          "Verre",
+          "Métal",
+          "Mégots de cigarettes",
+          "Feuilles d'assouplissant",
+          "Carton ciré"
+        ]
+      },
+      "tip": {
+        "en": "No plastic bags allowed, even compostable ones!",
+        "fr": "Aucun sac de plastique permis, même compostables!"
+      }
+    },
+    {
+      "id": "garbage",
+      "name": { "en": "Garbage", "fr": "Ordures" },
+      "binName": { "en": "Black Bin", "fr": "Bac noir" },
+      "color": "#4A4A4A",
+      "binSize": "240L",
+      "accepted": {
+        "en": [
+          "Items that cannot be recycled, composted, or reused"
+        ],
+        "fr": [
+          "Articles qui ne peuvent pas être recyclés, compostés ou réutilisés"
+        ]
+      },
+      "notAccepted": {
+        "en": [
+          "Recyclable materials",
+          "Compostable materials",
+          "Hazardous waste",
+          "Construction materials",
+          "Items beside the bin"
+        ],
+        "fr": [
+          "Matières recyclables",
+          "Matières compostables",
+          "Déchets dangereux",
+          "Matériaux de construction",
+          "Articles à côté du bac"
+        ]
+      },
+      "tip": {
+        "en": "Last resort only. If it can be recycled or composted, it doesn't belong here.",
+        "fr": "Dernier recours seulement. Si ça peut être recyclé ou composté, ça ne va pas ici."
+      }
+    },
+    {
+      "id": "yardwaste",
+      "name": { "en": "Yard Waste", "fr": "Résidus verts" },
+      "binName": { "en": "Paper Bags", "fr": "Sacs en papier" },
+      "color": "#5B8C5A",
+      "binSize": "Paper bags only",
+      "accepted": {
+        "en": [
+          "Leaves",
+          "Grass clippings",
+          "Small branches (under 1m)",
+          "Garden waste"
+        ],
+        "fr": [
+          "Feuilles",
+          "Rognures de gazon",
+          "Petites branches (moins de 1m)",
+          "Déchets de jardin"
+        ]
+      },
+      "notAccepted": {
+        "en": [
+          "Plastic bags",
+          "Soil or rocks",
+          "Large branches",
+          "Tree stumps"
+        ],
+        "fr": [
+          "Sacs en plastique",
+          "Terre ou roches",
+          "Grosses branches",
+          "Souches d'arbres"
+        ]
+      },
+      "tip": {
+        "en": "Use paper bags only. Seasonal collection - check schedule.",
+        "fr": "Utilisez des sacs en papier seulement. Collecte saisonnière - vérifiez l'horaire."
+      }
+    },
+    {
+      "id": "bulky",
+      "name": { "en": "Bulky Items", "fr": "Gros rebuts" },
+      "binName": { "en": "Curbside", "fr": "En bordure de rue" },
+      "color": "#6B7280",
+      "binSize": "Special collection",
+      "accepted": {
+        "en": [
+          "Furniture",
+          "Mattresses",
+          "Large appliances",
+          "Electronics"
+        ],
+        "fr": [
+          "Meubles",
+          "Matelas",
+          "Gros électroménagers",
+          "Électroniques"
+        ]
+      },
+      "notAccepted": {
+        "en": [
+          "Construction debris",
+          "Hazardous materials",
+          "Tires",
+          "Car parts"
+        ],
+        "fr": [
+          "Débris de construction",
+          "Matières dangereuses",
+          "Pneus",
+          "Pièces d'auto"
+        ]
+      },
+      "tip": {
+        "en": "Schedule pickup in advance. Limited to 3 items per collection.",
+        "fr": "Planifiez la collecte à l'avance. Limité à 3 articles par collecte."
+      }
+    }
+  ],
+  "schedules": {
+    "east": {
+      "recycling": {
+        "dayOfWeek": 2,
+        "frequency": "biweekly",
+        "startDate": "2026-01-27",
+        "time": "07:00"
+      },
+      "compost": {
+        "dayOfWeek": 1,
+        "frequency": "weekly",
+        "time": "07:00"
+      },
+      "garbage": {
+        "dayOfWeek": 3,
+        "frequency": "biweekly",
+        "startDate": "2026-01-21",
+        "time": "07:00"
+      }
+    },
+    "west": {
+      "recycling": {
+        "dayOfWeek": 2,
+        "frequency": "biweekly",
+        "startDate": "2026-01-27",
+        "time": "07:00"
+      },
+      "compost": {
+        "dayOfWeek": 4,
+        "frequency": "weekly",
+        "time": "07:00"
+      },
+      "garbage": {
+        "dayOfWeek": 3,
+        "frequency": "biweekly",
+        "startDate": "2026-01-28",
+        "time": "07:00"
+      }
+    }
+  },
+  "guidelines": {
+    "position": {
+      "en": [
+        "Cover CLOSED",
+        "Handle and wheels facing your home",
+        "2 feet clearance around bin",
+        "Left side when facing your home",
+        "3 feet from the street",
+        "Place in private entrance, not on sidewalks"
+      ],
+      "fr": [
+        "Couvercle FERMÉ",
+        "Poignée et roues face à votre maison",
+        "2 pieds de dégagement autour du bac",
+        "Côté gauche face à votre maison",
+        "3 pieds de la rue",
+        "Placer dans l'entrée privée, pas sur les trottoirs"
+      ]
+    },
+    "timing": {
+      "en": "Put out by 7:00 AM on collection day, or after 7:00 PM the evening before.",
+      "fr": "Sortir avant 7h00 le jour de collecte, ou après 19h00 la veille."
+    }
+  }
+}

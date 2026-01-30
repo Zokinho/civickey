@@ -1,0 +1,15 @@
+{
+  "municipality": "Saint-Lazare",
+  "zones": [
+    {
+      "id": "east",
+      "name": "East Sector / Secteur Est",
+      "description": "Yellow zone on city map"
+    },
+    {
+      "id": "west",
+      "name": "West Sector / Secteur Ouest",
+      "description": "Blue zone on city map"
+    }
+  ]
+}

@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "civickey",
+    "name": "CivicKey",
     "slug": "civickey",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -10,20 +10,37 @@
     "splash": {
       "image": "./assets/splash-icon.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#0D5C63"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "ca.civickey.app",
+      "buildNumber": "1",
+      "infoPlist": {
+        "NSCameraUsageDescription": "CivicKey needs camera access to scan QR codes.",
+        "NSPhotoLibraryUsageDescription": "CivicKey needs photo library access to upload images.",
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
+      "package": "ca.civickey.app",
+      "versionCode": 1,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#0D5C63"
       },
       "edgeToEdgeEnabled": true
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      "expo-localization"
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "7d8c5bf9-25cc-45e0-a64b-f06afedfacd5"
+      }
     }
   }
 }
