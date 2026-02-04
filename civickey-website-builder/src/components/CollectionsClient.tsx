@@ -20,25 +20,34 @@ export default function CollectionsClient({ schedule, zones, locale }: Collectio
 
   return (
     <div className="space-y-8">
-      {zones.length > 0 && (
-        <ZoneSelector
-          zones={zones}
-          locale={locale}
-          selectedZone={selectedZone}
-          onSelect={setSelectedZone}
-        />
-      )}
+      <div className="flex flex-wrap items-center justify-between gap-4">
+        {zones.length > 0 && (
+          <ZoneSelector
+            zones={zones}
+            locale={locale}
+            selectedZone={selectedZone}
+            onSelect={setSelectedZone}
+          />
+        )}
+        <a
+          href="https://contenu.maruche.ca/Fichiers/228290ed-49b5-4dff-af87-e59de42eefd0/Sites/22d38d6f-ef7d-ec11-81d5-00155d000708/Images/Cartes/CarteCollecteParSecteur.pdf"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-2 text-sm font-medium px-4 py-2 rounded-lg border border-gray-300 hover:bg-gray-50 transition-colors"
+        >
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
+          </svg>
+          {locale === 'fr' ? 'Carte des secteurs' : 'Zone Map'}
+        </a>
+      </div>
 
       {schedule && selectedZone && (
-        <Card>
-          <CardBody>
-            <ScheduleGrid
-              schedule={schedule}
-              selectedZoneId={selectedZone}
-              locale={locale}
-            />
-          </CardBody>
-        </Card>
+        <ScheduleGrid
+          schedule={schedule}
+          selectedZoneId={selectedZone}
+          locale={locale}
+        />
       )}
 
       {schedule?.guidelines && (

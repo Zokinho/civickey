@@ -30,7 +30,7 @@ function TextPageEditor({ content, onChange, disabled }) {
             value={data.body?.fr || ''}
             onChange={(e) => updateNested('body', 'fr', e.target.value)}
             disabled={disabled}
-            placeholder="Entrez le texte en fran\u00e7ais"
+            placeholder="Entrez le texte en français"
             rows={6}
           />
         </div>

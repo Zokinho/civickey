@@ -51,7 +51,7 @@ function PdfPageEditor({ content, onChange, disabled }) {
             value={data.description?.fr || ''}
             onChange={(e) => updateDescription('fr', e.target.value)}
             disabled={disabled}
-            placeholder="Description de la page en fran\u00e7ais"
+            placeholder="Description de la page en français"
             rows={3}
           />
         </div>
@@ -79,7 +79,7 @@ function PdfPageEditor({ content, onChange, disabled }) {
             </div>
             <div className="form-group">
               <label>Title (French)</label>
-              <input type="text" value={doc.title?.fr || ''} onChange={(e) => updateDocNested(index, 'title', 'fr', e.target.value)} disabled={disabled} placeholder="Titre du document en fran\u00e7ais" />
+              <input type="text" value={doc.title?.fr || ''} onChange={(e) => updateDocNested(index, 'title', 'fr', e.target.value)} disabled={disabled} placeholder="Titre du document en français" />
             </div>
           </div>
           <div className="form-group">
@@ -93,7 +93,7 @@ function PdfPageEditor({ content, onChange, disabled }) {
             </div>
             <div className="form-group">
               <label>Description (French, optional)</label>
-              <input type="text" value={doc.description?.fr || ''} onChange={(e) => updateDocNested(index, 'description', 'fr', e.target.value)} disabled={disabled} placeholder="Br\u00e8ve description" />
+              <input type="text" value={doc.description?.fr || ''} onChange={(e) => updateDocNested(index, 'description', 'fr', e.target.value)} disabled={disabled} placeholder="Brève description" />
             </div>
           </div>
         </div>

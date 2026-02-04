@@ -8,7 +8,7 @@ const nextConfig = {
       },
       {
         protocol: 'https',
-        hostname: 'REDACTED_STORAGE_BUCKET',
+        hostname: '*.firebasestorage.app',
       },
     ],
   },

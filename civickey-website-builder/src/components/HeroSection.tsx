@@ -10,6 +10,7 @@ interface HeroSectionProps {
 export default function HeroSection({ config, locale }: HeroSectionProps) {
   const tagline = getLocalizedText(config.website?.heroTagline, locale);
   const heroImage = config.website?.heroImage;
+  const heroImagePosition = config.website?.heroImagePosition || '50% 50%';
 
   return (
     <section className="relative overflow-hidden" style={{ backgroundColor: 'var(--color-primary)' }}>
@@ -18,7 +19,8 @@ export default function HeroSection({ config, locale }: HeroSectionProps) {
           src={heroImage}
           alt=""
           fill
-          className="object-cover opacity-20"
+          className="object-cover opacity-25"
+          style={{ objectPosition: heroImagePosition }}
           priority
         />
       )}

@@ -13,6 +13,7 @@ interface HeaderProps {
 
 export default function Header({ config, locale, pages }: HeaderProps) {
   const base = `/${config.id}/${locale}`;
+  const navigation = config.website?.navigation;
 
   return (
     <header className="sticky top-0 z-40 bg-white border-b border-gray-200">
@@ -37,6 +38,7 @@ export default function Header({ config, locale, pages }: HeaderProps) {
             municipalityId={config.id}
             locale={locale}
             pages={pages}
+            navigation={navigation}
           />
 
           <div className="flex items-center gap-3">
@@ -45,6 +47,7 @@ export default function Header({ config, locale, pages }: HeaderProps) {
               municipalityId={config.id}
               locale={locale}
               pages={pages}
+              navigation={navigation}
             />
           </div>
         </div>

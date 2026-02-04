@@ -56,7 +56,7 @@ function InfoCardPageEditor({ content, onChange, disabled }) {
             value={data.intro?.fr || ''}
             onChange={(e) => updateIntro('fr', e.target.value)}
             disabled={disabled}
-            placeholder="Texte d'introduction en fran\u00e7ais"
+            placeholder="Texte d'introduction en français"
             rows={3}
           />
         </div>
@@ -88,7 +88,7 @@ function InfoCardPageEditor({ content, onChange, disabled }) {
             </div>
             <div className="form-group">
               <label>Title (French)</label>
-              <input type="text" value={card.title?.fr || ''} onChange={(e) => updateCardNested(index, 'title', 'fr', e.target.value)} disabled={disabled} placeholder="Titre de la carte en fran\u00e7ais" />
+              <input type="text" value={card.title?.fr || ''} onChange={(e) => updateCardNested(index, 'title', 'fr', e.target.value)} disabled={disabled} placeholder="Titre de la carte en français" />
             </div>
           </div>
           <div className="form-row">
@@ -98,7 +98,7 @@ function InfoCardPageEditor({ content, onChange, disabled }) {
             </div>
             <div className="form-group">
               <label>Description (French)</label>
-              <textarea value={card.description?.fr || ''} onChange={(e) => updateCardNested(index, 'description', 'fr', e.target.value)} disabled={disabled} placeholder="Description en fran\u00e7ais" rows={2} />
+              <textarea value={card.description?.fr || ''} onChange={(e) => updateCardNested(index, 'description', 'fr', e.target.value)} disabled={disabled} placeholder="Description en français" rows={2} />
             </div>
           </div>
           <div className="form-group">
