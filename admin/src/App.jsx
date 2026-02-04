@@ -12,6 +12,9 @@ import Schedule from './pages/Schedule';
 import RoadClosures from './pages/RoadClosures';
 import AdminManagement from './pages/AdminManagement';
 import MunicipalityManagement from './pages/MunicipalityManagement';
+import WebsiteSettings from './pages/WebsiteSettings';
+import CustomPages from './pages/CustomPages';
+import CustomPageEditor from './pages/CustomPageEditor';
 import './App.css';
 
 function App() {
@@ -38,6 +41,9 @@ function App() {
               <Route path="facilities" element={<Facilities />} />
               <Route path="schedule" element={<Schedule />} />
               <Route path="road-closures" element={<RoadClosures />} />
+              <Route path="website-settings" element={<WebsiteSettings />} />
+              <Route path="custom-pages" element={<CustomPages />} />
+              <Route path="custom-pages/:pageId" element={<CustomPageEditor />} />
               <Route path="admins" element={<AdminManagement />} />
               <Route path="municipalities" element={<MunicipalityManagement />} />
               <Route path="*" element={<Navigate to="/" replace />} />

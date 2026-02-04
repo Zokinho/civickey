@@ -1,0 +1,40 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-primary: #0D5C63;
+  --color-primary-dark: #0a4a50;
+  --color-primary-light: #e8f4f5;
+  --color-accent: #F4A261;
+}
+
+body {
+  @apply bg-white text-gray-900 antialiased;
+}
+
+a {
+  @apply text-primary hover:text-primary-dark transition-colors;
+}
+
+@layer components {
+  .container-page {
+    @apply max-w-6xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  .section-title {
+    @apply text-2xl sm:text-3xl font-bold text-gray-900 mb-6;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center px-4 py-2 rounded-lg font-medium text-white transition-colors;
+    background-color: var(--color-primary);
+  }
+  .btn-primary:hover {
+    background-color: var(--color-primary-dark);
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center px-4 py-2 rounded-lg font-medium border border-gray-300 text-gray-700 bg-white hover:bg-gray-50 transition-colors;
+  }
+}

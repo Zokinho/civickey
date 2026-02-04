@@ -1,0 +1,344 @@
+import { useState, useEffect } from 'react';
+import { doc, updateDoc } from 'firebase/firestore';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { db, storage } from '../firebase/config';
+import { useAuth } from '../contexts/AuthContext';
+import { can } from '../utils/permissions';
+
+const BASE_DOMAIN = 'civickey.ca';
+
+function WebsiteSettings() {
+  const { municipality, municipalityConfig, adminData } = useAuth();
+  const canEdit = can(adminData?.role, 'websiteSettings', 'edit');
+  const [loading, setLoading] = useState(false);
+  const [form, setForm] = useState({
+    enabled: false,
+    heroTaglineEn: '',
+    heroTaglineFr: '',
+    heroImage: '',
+    address: '',
+    phone: '',
+    email: '',
+    facebook: '',
+    twitter: '',
+    instagram: '',
+    youtube: '',
+    customDomain: '',
+  });
+  const [domainStatus, setDomainStatus] = useState(null);
+  const [verifying, setVerifying] = useState(false);
+
+  useEffect(() => {
+    if (municipalityConfig?.website) {
+      const w = municipalityConfig.website;
+      setForm({
+        enabled: w.enabled || false,
+        heroTaglineEn: w.heroTagline?.en || '',
+        heroTaglineFr: w.heroTagline?.fr || '',
+        heroImage: w.heroImage || '',
+        address: w.footer?.address || '',
+        phone: w.footer?.phone || '',
+        email: w.footer?.email || '',
+        facebook: w.footer?.facebook || '',
+        twitter: w.footer?.twitter || '',
+        instagram: w.footer?.instagram || '',
+        youtube: w.footer?.youtube || '',
+        customDomain: w.customDomain || '',
+      });
+      setDomainStatus(w.domainVerified ? 'verified' : null);
+    }
+  }, [municipalityConfig]);
+
+  const handleSave = async () => {
+    if (!canEdit) return;
+    setLoading(true);
+
+    try {
+      const websiteData = {
+        website: {
+          enabled: form.enabled,
+          subdomain: municipality,
+          heroTagline: { en: form.heroTaglineEn.trim(), fr: form.heroTaglineFr.trim() },
+          heroImage: form.heroImage,
+          footer: {
+            address: form.address.trim(),
+            phone: form.phone.trim(),
+            email: form.email.trim(),
+            facebook: form.facebook.trim(),
+            twitter: form.twitter.trim(),
+            instagram: form.instagram.trim(),
+            youtube: form.youtube.trim(),
+          },
+          customDomain: form.customDomain.trim(),
+          domainVerified: domainStatus === 'verified',
+        },
+      };
+
+      await updateDoc(doc(db, 'municipalities', municipality), websiteData);
+      alert('Website settings saved successfully!');
+    } catch (error) {
+      alert('Error saving settings: ' + error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleHeroImageUpload = async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    try {
+      const ext = file.name.split('.').pop();
+      const storageRef = ref(storage, `municipalities/${municipality}/hero.${ext}`);
+      await uploadBytes(storageRef, file);
+      const url = await getDownloadURL(storageRef);
+      setForm({ ...form, heroImage: url });
+    } catch (error) {
+      alert('Error uploading image: ' + error.message);
+    }
+  };
+
+  const handleVerifyDomain = async () => {
+    const domain = form.customDomain.trim();
+    if (!domain) return;
+
+    setVerifying(true);
+    try {
+      const resp = await fetch(
+        `https://dns.google/resolve?name=${encodeURIComponent(domain)}&type=CNAME`
+      );
+      const data = await resp.json();
+      const answers = data.Answer || [];
+      const hasCname = answers.some(
+        (a) => a.type === 5 && a.data?.includes('cname.vercel-dns.com')
+      );
+      setDomainStatus(hasCname ? 'verified' : 'failed');
+    } catch {
+      setDomainStatus('error');
+    } finally {
+      setVerifying(false);
+    }
+  };
+
+  const subdomainUrl = `https://${municipality}.${BASE_DOMAIN}`;
+
+  return (
+    <div>
+      <div className="page-header">
+        <h2>Website Settings</h2>
+        <p>Configure your municipality&apos;s public website</p>
+      </div>
+
+      <div className="card">
+        <div className="card-header">
+          <h3>General</h3>
+        </div>
+        <div style={{ padding: '20px' }}>
+          <div className="form-group">
+            <label style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <input
+                type="checkbox"
+                checked={form.enabled}
+                onChange={(e) => setForm({ ...form, enabled: e.target.checked })}
+                style={{ width: 'auto' }}
+                disabled={!canEdit}
+              />
+              Website enabled
+            </label>
+          </div>
+
+          {form.enabled && (
+            <div className="form-group">
+              <label>Website URL</label>
+              <div style={{ padding: '8px 12px', background: '#f0f4f8', borderRadius: '6px', fontSize: '0.875rem' }}>
+                <a href={subdomainUrl} target="_blank" rel="noopener noreferrer">
+                  {subdomainUrl}
+                </a>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+
+      <div className="card" style={{ marginTop: '20px' }}>
+        <div className="card-header">
+          <h3>Hero Section</h3>
+        </div>
+        <div style={{ padding: '20px' }}>
+          <div className="form-row">
+            <div className="form-group">
+              <label>Tagline (English)</label>
+              <input
+                type="text"
+                value={form.heroTaglineEn}
+                onChange={(e) => setForm({ ...form, heroTaglineEn: e.target.value })}
+                placeholder="Welcome to our municipality"
+                disabled={!canEdit}
+              />
+            </div>
+            <div className="form-group">
+              <label>Tagline (French)</label>
+              <input
+                type="text"
+                value={form.heroTaglineFr}
+                onChange={(e) => setForm({ ...form, heroTaglineFr: e.target.value })}
+                placeholder="Bienvenue dans notre municipalit&eacute;"
+                disabled={!canEdit}
+              />
+            </div>
+          </div>
+
+          <div className="form-group">
+            <label>Hero Image</label>
+            {form.heroImage && (
+              <img
+                src={form.heroImage}
+                alt="Hero"
+                style={{ maxWidth: '300px', maxHeight: '150px', objectFit: 'cover', borderRadius: '6px', marginBottom: '8px' }}
+              />
+            )}
+            {canEdit && (
+              <input type="file" accept="image/*" onChange={handleHeroImageUpload} />
+            )}
+          </div>
+        </div>
+      </div>
+
+      <div className="card" style={{ marginTop: '20px' }}>
+        <div className="card-header">
+          <h3>Footer Information</h3>
+        </div>
+        <div style={{ padding: '20px' }}>
+          <div className="form-group">
+            <label>Address</label>
+            <input
+              type="text"
+              value={form.address}
+              onChange={(e) => setForm({ ...form, address: e.target.value })}
+              placeholder="1234 Main Street, City, QC"
+              disabled={!canEdit}
+            />
+          </div>
+
+          <div className="form-row">
+            <div className="form-group">
+              <label>Phone</label>
+              <input
+                type="text"
+                value={form.phone}
+                onChange={(e) => setForm({ ...form, phone: e.target.value })}
+                placeholder="450-555-1234"
+                disabled={!canEdit}
+              />
+            </div>
+            <div className="form-group">
+              <label>Email</label>
+              <input
+                type="email"
+                value={form.email}
+                onChange={(e) => setForm({ ...form, email: e.target.value })}
+                placeholder="info@municipality.ca"
+                disabled={!canEdit}
+              />
+            </div>
+          </div>
+
+          <div className="form-row">
+            <div className="form-group">
+              <label>Facebook URL</label>
+              <input
+                type="url"
+                value={form.facebook}
+                onChange={(e) => setForm({ ...form, facebook: e.target.value })}
+                disabled={!canEdit}
+              />
+            </div>
+            <div className="form-group">
+              <label>Instagram URL</label>
+              <input
+                type="url"
+                value={form.instagram}
+                onChange={(e) => setForm({ ...form, instagram: e.target.value })}
+                disabled={!canEdit}
+              />
+            </div>
+          </div>
+
+          <div className="form-row">
+            <div className="form-group">
+              <label>Twitter URL</label>
+              <input
+                type="url"
+                value={form.twitter}
+                onChange={(e) => setForm({ ...form, twitter: e.target.value })}
+                disabled={!canEdit}
+              />
+            </div>
+            <div className="form-group">
+              <label>YouTube URL</label>
+              <input
+                type="url"
+                value={form.youtube}
+                onChange={(e) => setForm({ ...form, youtube: e.target.value })}
+                disabled={!canEdit}
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="card" style={{ marginTop: '20px' }}>
+        <div className="card-header">
+          <h3>Custom Domain</h3>
+        </div>
+        <div style={{ padding: '20px' }}>
+          <div className="form-group">
+            <label>Custom Domain</label>
+            <input
+              type="text"
+              value={form.customDomain}
+              onChange={(e) => setForm({ ...form, customDomain: e.target.value })}
+              placeholder="www.ville-example.ca"
+              disabled={!canEdit}
+            />
+          </div>
+
+          {form.customDomain && (
+            <div style={{ padding: '12px', background: '#f0f4f8', borderRadius: '6px', marginBottom: '16px', fontSize: '0.875rem' }}>
+              <p style={{ fontWeight: '600', marginBottom: '8px' }}>DNS Configuration Required:</p>
+              <p>Add a CNAME record pointing <strong>{form.customDomain}</strong> to <strong>cname.vercel-dns.com</strong></p>
+              <div style={{ marginTop: '12px', display: 'flex', gap: '8px', alignItems: 'center' }}>
+                <button
+                  className="btn btn-secondary btn-sm"
+                  onClick={handleVerifyDomain}
+                  disabled={verifying || !canEdit}
+                >
+                  {verifying ? 'Verifying...' : 'Verify DNS'}
+                </button>
+                {domainStatus === 'verified' && (
+                  <span style={{ color: '#16a34a', fontWeight: '600' }}>Verified</span>
+                )}
+                {domainStatus === 'failed' && (
+                  <span style={{ color: '#dc2626' }}>DNS not configured yet</span>
+                )}
+                {domainStatus === 'error' && (
+                  <span style={{ color: '#dc2626' }}>Verification error</span>
+                )}
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {canEdit && (
+        <div style={{ marginTop: '20px', display: 'flex', justifyContent: 'flex-end' }}>
+          <button className="btn btn-primary" onClick={handleSave} disabled={loading}>
+            {loading ? 'Saving...' : 'Save Settings'}
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}
+
+export default WebsiteSettings;

@@ -110,6 +110,18 @@ function Layout() {
             <span className="icon">🚧</span>
             Road Closures
           </NavLink>
+          {can(adminData?.role, 'websiteSettings', 'view') && (
+            <NavLink to="/website-settings" className={({ isActive }) => isActive ? 'active' : ''}>
+              <span className="icon">🌐</span>
+              Website
+            </NavLink>
+          )}
+          {can(adminData?.role, 'customPages', 'view') && (
+            <NavLink to="/custom-pages" className={({ isActive }) => isActive ? 'active' : ''}>
+              <span className="icon">📄</span>
+              Custom Pages
+            </NavLink>
+          )}
           {isSuperAdmin() && (
             <>
               <NavLink to="/admins" className={({ isActive }) => isActive ? 'active' : ''}>

@@ -83,6 +83,20 @@ export const PERMISSIONS = {
     create: (role) => role === ROLES.SUPER_ADMIN,
     edit: (role) => role === ROLES.SUPER_ADMIN,
     delete: (role) => role === ROLES.SUPER_ADMIN
+  },
+
+  // Website Settings - admin+ can manage
+  websiteSettings: {
+    view: (role) => hasMinRole(role, ROLES.ADMIN),
+    edit: (role) => hasMinRole(role, ROLES.ADMIN)
+  },
+
+  // Custom Pages - editor+ can manage
+  customPages: {
+    view: () => true,
+    create: (role) => hasMinRole(role, ROLES.EDITOR),
+    edit: (role) => hasMinRole(role, ROLES.EDITOR),
+    delete: (role) => hasMinRole(role, ROLES.EDITOR)
   }
 };
 
