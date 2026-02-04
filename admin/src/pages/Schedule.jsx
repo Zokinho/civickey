@@ -603,7 +603,7 @@ function Schedule() {
                       <th>Type</th>
                       <th>Day</th>
                       <th>Frequency</th>
-                      <th>Start Date (biweekly)</th>
+                      <th>Start Date (biweekly/monthly)</th>
                       <th>Time</th>
                     </tr>
                   </thead>
@@ -656,6 +656,7 @@ function Schedule() {
                             >
                               <option value="weekly">Weekly</option>
                               <option value="biweekly">Every 2 weeks</option>
+                              <option value="monthly">Monthly</option>
                             </select>
                           </td>
                           <td>
@@ -663,7 +664,7 @@ function Schedule() {
                               type="date"
                               value={zoneSchedule?.startDate ?? ''}
                               onChange={(e) => updateZoneSchedule(zone.id, type.id, 'startDate', e.target.value)}
-                              disabled={!isEnabled || zoneSchedule?.frequency !== 'biweekly' || !canEdit}
+                              disabled={!isEnabled || (zoneSchedule?.frequency !== 'biweekly' && zoneSchedule?.frequency !== 'monthly') || !canEdit}
                               style={{ minWidth: 140 }}
                             />
                           </td>

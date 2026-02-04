@@ -1,4 +1,4 @@
-import type { Locale, ScheduleData, Zone } from '@/lib/types';
+import type { Locale, ScheduleData, CollectionScheduleEntry } from '@/lib/types';
 import { getLocalizedText, t } from '@/lib/i18n';
 
 interface ScheduleGridProps {
@@ -7,7 +7,78 @@ interface ScheduleGridProps {
   locale: Locale;
 }
 
-const DAY_KEYS = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+const DAY_KEYS = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+
+function getNextCollectionDate(entry: CollectionScheduleEntry): Date {
+  const now = new Date();
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  const todayDow = today.getDay();
+
+  // Find next occurrence of the target day of week
+  let daysUntil = entry.dayOfWeek - todayDow;
+  if (daysUntil < 0) daysUntil += 7;
+  if (daysUntil === 0) {
+    // Today is collection day — return today
+  }
+
+  let candidate = new Date(today);
+  candidate.setDate(today.getDate() + daysUntil);
+
+  if (entry.frequency === 'biweekly' && entry.startDate) {
+    const start = new Date(entry.startDate + 'T00:00:00');
+    // Calculate weeks difference from start date
+    const diffMs = candidate.getTime() - start.getTime();
+    const diffWeeks = Math.round(diffMs / (7 * 24 * 60 * 60 * 1000));
+    // If odd number of weeks from start, push to next week
+    if (diffWeeks % 2 !== 0) {
+      candidate.setDate(candidate.getDate() + 7);
+    }
+  }
+
+  if (entry.frequency === 'monthly' && entry.startDate) {
+    const start = new Date(entry.startDate + 'T00:00:00');
+    // Find first biweekly-aligned occurrence of dayOfWeek in current or next month
+    for (let monthOffset = 0; monthOffset <= 1; monthOffset++) {
+      const monthStart = new Date(now.getFullYear(), now.getMonth() + monthOffset, 1);
+      // Find first occurrence of target dayOfWeek in this month
+      let firstOccurrence = new Date(monthStart);
+      let diff = entry.dayOfWeek - monthStart.getDay();
+      if (diff < 0) diff += 7;
+      firstOccurrence.setDate(1 + diff);
+      // Check biweekly alignment with startDate
+      const diffMs = firstOccurrence.getTime() - start.getTime();
+      const diffWeeks = Math.round(diffMs / (7 * 24 * 60 * 60 * 1000));
+      if (diffWeeks % 2 !== 0) {
+        // Off-week — use second occurrence
+        firstOccurrence.setDate(firstOccurrence.getDate() + 7);
+      }
+      if (firstOccurrence >= today) {
+        return firstOccurrence;
+      }
+    }
+  }
+
+  return candidate;
+}
+
+function formatNextDate(date: Date, locale: Locale): string {
+  const now = new Date();
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  const tomorrow = new Date(today);
+  tomorrow.setDate(today.getDate() + 1);
+
+  if (date.getTime() === today.getTime()) {
+    return t('collections.today', locale);
+  }
+  if (date.getTime() === tomorrow.getTime()) {
+    return t('collections.tomorrow', locale);
+  }
+
+  return date.toLocaleDateString(locale === 'fr' ? 'fr-CA' : 'en-CA', {
+    month: 'short',
+    day: 'numeric',
+  });
+}
 
 export default function ScheduleGrid({ schedule, selectedZoneId, locale }: ScheduleGridProps) {
   const zoneSchedule = schedule.schedules?.[selectedZoneId];
@@ -21,50 +92,61 @@ export default function ScheduleGrid({ schedule, selectedZoneId, locale }: Sched
   }
 
   return (
-    <div className="overflow-x-auto">
-      <table className="w-full text-sm">
-        <thead>
-          <tr className="border-b border-gray-200">
-            <th className="text-left py-3 pr-4 font-medium text-gray-500">
-              {t('events.date', locale)}
-            </th>
-            {schedule.collectionTypes.map((type) => (
-              <th key={type.id} className="text-center py-3 px-2 font-medium text-gray-500">
-                <div className="flex items-center justify-center gap-1.5">
-                  <div
-                    className="w-2.5 h-2.5 rounded-full"
-                    style={{ backgroundColor: type.color }}
-                  />
+    <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {schedule.collectionTypes.map((type) => {
+        const entry = zoneSchedule[type.id];
+        if (!entry) return null;
+
+        const nextDate = getNextCollectionDate(entry);
+        const dayKey = DAY_KEYS[entry.dayOfWeek];
+        const dayLabel = t(`days.${dayKey}`, locale);
+        const frequencyLabel = entry.frequency === 'monthly'
+          ? t('collections.monthly', locale)
+          : entry.frequency === 'biweekly'
+            ? t('collections.every_two_weeks', locale)
+            : t('collections.every_week', locale);
+        const nextDateLabel = formatNextDate(nextDate, locale);
+
+        return (
+          <div
+            key={type.id}
+            className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden"
+          >
+            <div
+              className="h-1.5"
+              style={{ backgroundColor: type.color }}
+            />
+            <div className="px-5 py-4">
+              <div className="flex items-center gap-2.5 mb-3">
+                <div
+                  className="w-4 h-4 rounded-full shrink-0"
+                  style={{ backgroundColor: type.color }}
+                />
+                <h3 className="font-semibold text-gray-900 text-lg">
                   {getLocalizedText(type.name, locale)}
+                </h3>
+              </div>
+
+              <div className="space-y-2 text-sm">
+                <div className="flex items-center justify-between">
+                  <span className="text-gray-500">{dayLabel}</span>
+                  <span
+                    className="text-xs font-medium px-2 py-0.5 rounded-full"
+                    style={{ backgroundColor: type.color + '1A', color: type.color }}
+                  >
+                    {frequencyLabel}
+                  </span>
                 </div>
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {DAY_KEYS.map((dayKey, index) => (
-            <tr key={dayKey} className="border-b border-gray-100">
-              <td className="py-3 pr-4 font-medium text-gray-900">
-                {t(`days.${dayKey}`, locale)}
-              </td>
-              {schedule.collectionTypes.map((type) => {
-                const days = zoneSchedule[type.id] || [];
-                const isActive = days.includes(String(index + 1)) || days.includes(dayKey);
-                return (
-                  <td key={type.id} className="py-3 px-2 text-center">
-                    {isActive && (
-                      <span
-                        className="inline-block w-6 h-6 rounded-full"
-                        style={{ backgroundColor: type.color }}
-                      />
-                    )}
-                  </td>
-                );
-              })}
-            </tr>
-          ))}
-        </tbody>
-      </table>
+
+                <div className="flex items-center justify-between pt-2 border-t border-gray-100">
+                  <span className="text-gray-500">{t('collections.next', locale)}</span>
+                  <span className="font-semibold text-gray-900">{nextDateLabel}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+      })}
     </div>
   );
 }

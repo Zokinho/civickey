@@ -12,11 +12,33 @@ export interface MunicipalityColors {
   background?: string;
 }
 
+export interface NavigationItem {
+  id: string;
+  label: BilingualText;
+  type: 'link' | 'dropdown';
+  linkType?: 'builtin' | 'page' | 'external';
+  builtinPage?: 'home' | 'collections' | 'events' | 'news' | 'facilities';
+  pageSlug?: string;
+  externalUrl?: string;
+  children?: NavigationChild[];
+}
+
+export interface NavigationChild {
+  id: string;
+  label: BilingualText;
+  linkType: 'builtin' | 'page' | 'external';
+  builtinPage?: 'home' | 'collections' | 'events' | 'news' | 'facilities';
+  pageSlug?: string;
+  externalUrl?: string;
+}
+
 export interface WebsiteSettings {
   enabled: boolean;
   subdomain?: string;
   heroTagline?: BilingualText;
   heroImage?: string;
+  heroImagePosition?: string;
+  navigation?: NavigationItem[];
   footer?: {
     address?: string;
     phone?: string;
@@ -110,8 +132,15 @@ export interface CollectionType {
   icon?: string;
 }
 
+export interface CollectionScheduleEntry {
+  dayOfWeek: number; // 0=Sunday, 1=Monday, ..., 6=Saturday
+  frequency: string; // "weekly" | "biweekly" | "monthly"
+  startDate?: string;
+  time?: string;
+}
+
 export interface ZoneSchedule {
-  [collectionTypeId: string]: string[];
+  [collectionTypeId: string]: CollectionScheduleEntry;
 }
 
 export type PageType = 'text' | 'info-cards' | 'pdf' | 'council' | 'links' | 'contact';

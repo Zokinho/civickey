@@ -56,6 +56,29 @@ export default function ScheduleScreen() {
       }
     }
 
+    // For monthly, find first biweekly-aligned occurrence of dayOfWeek in current/next month
+    if (frequency === 'monthly' && startDate) {
+      const start = new Date(startDate);
+      start.setHours(0, 0, 0, 0);
+      const msPerWeek = 7 * 24 * 60 * 60 * 1000;
+
+      for (let monthOffset = 0; monthOffset <= 1; monthOffset++) {
+        const monthStart = new Date(today.getFullYear(), today.getMonth() + monthOffset, 1);
+        let diff = dayOfWeek - monthStart.getDay();
+        if (diff < 0) diff += 7;
+        const firstOccurrence = new Date(monthStart);
+        firstOccurrence.setDate(1 + diff);
+        const weeksDiff = Math.round((firstOccurrence - start) / msPerWeek);
+        if (weeksDiff % 2 !== 0) {
+          firstOccurrence.setDate(firstOccurrence.getDate() + 7);
+        }
+        if (firstOccurrence >= today) {
+          nextDate = firstOccurrence;
+          break;
+        }
+      }
+    }
+
     return nextDate.toLocaleDateString(language === 'fr' ? 'fr-CA' : 'en-CA', {
       month: 'short',
       day: 'numeric'
@@ -126,9 +149,11 @@ export default function ScheduleScreen() {
           const typeSchedule = zoneSchedule[type.id];
           if (!typeSchedule) return null;
 
-          const frequencyText = typeSchedule.frequency === 'biweekly'
-            ? (language === 'fr' ? 'Aux 2 semaines' : 'Every 2 weeks')
-            : (language === 'fr' ? 'Chaque semaine' : 'Weekly');
+          const frequencyText = typeSchedule.frequency === 'monthly'
+            ? (language === 'fr' ? 'Mensuel' : 'Monthly')
+            : typeSchedule.frequency === 'biweekly'
+              ? (language === 'fr' ? 'Aux 2 semaines' : 'Every 2 weeks')
+              : (language === 'fr' ? 'Chaque semaine' : 'Weekly');
 
           return (
             <TouchableOpacity
