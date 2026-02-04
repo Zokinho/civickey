@@ -224,11 +224,7 @@ export function AuthProvider({ children }) {
           setError('This account has been disabled.');
           break;
         case 'auth/user-not-found':
-          setError('No account found with this email.');
-          break;
         case 'auth/wrong-password':
-          setError('Incorrect password.');
-          break;
         case 'auth/invalid-credential':
           setError('Invalid email or password.');
           break;
@@ -328,15 +324,15 @@ export function AuthProvider({ children }) {
     }
 
     try {
-      setActiveMunicipality(municipalityId);
-
-      // Fetch new municipality config
+      // Fetch new municipality config BEFORE updating state
       const configDoc = await getDoc(doc(db, 'municipalities', municipalityId));
-      if (configDoc.exists()) {
-        setMunicipalityConfig({ id: configDoc.id, ...configDoc.data() });
-      } else {
-        setMunicipalityConfig(null);
-      }
+      const newConfig = configDoc.exists()
+        ? { id: configDoc.id, ...configDoc.data() }
+        : null;
+
+      // Update both states together after successful fetch
+      setActiveMunicipality(municipalityId);
+      setMunicipalityConfig(newConfig);
       return true;
     } catch (err) {
       console.error('Error switching municipality:', err);

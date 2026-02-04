@@ -8,6 +8,7 @@ export function useEvents() {
   const { municipalityId } = useMunicipality();
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   const fetchEvents = useCallback(async () => {
     if (!municipalityId) {
@@ -17,6 +18,7 @@ export function useEvents() {
     }
 
     try {
+      setError(null);
       const eventsCol = collection(db, 'municipalities', municipalityId, 'events');
       const q = query(eventsCol, orderBy('date', 'asc'));
       const querySnapshot = await getDocs(q);
@@ -32,7 +34,8 @@ export function useEvents() {
         setEvents(data);
       }
     } catch (error) {
-      console.log('Error fetching events, using local data:', error.message);
+      console.error('Error fetching events, using local data:', error.message);
+      setError(error.message);
       // Fall back to local events
       setEvents(localEvents.events || []);
     } finally {
@@ -44,5 +47,5 @@ export function useEvents() {
     fetchEvents();
   }, [fetchEvents]);
 
-  return { events, loading, refresh: fetchEvents };
+  return { events, loading, error, refresh: fetchEvents };
 }

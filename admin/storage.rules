@@ -7,6 +7,19 @@ service firebase.storage {
       return request.auth != null;
     }
 
+    // Helper: Check if user is a super-admin (via custom claim)
+    function isSuperAdmin() {
+      return isAuthenticated()
+        && request.auth.token.role == 'super-admin';
+    }
+
+    // Helper: Check if user is assigned to a municipality with write role
+    function canWriteMunicipality(municipalityId) {
+      return isAuthenticated()
+        && request.auth.token.municipalityId == municipalityId
+        && request.auth.token.role in ['editor', 'admin'];
+    }
+
     // ============================================
     // MUNICIPALITY FILES
     // ============================================
@@ -15,11 +28,10 @@ service firebase.storage {
       // Public read for logos and images (needed for app)
       allow read: if true;
 
-      // Only authenticated users can write
-      // NOTE: Firestore rules handle the municipality assignment check
-      // Storage rules can't easily query Firestore, so we rely on
-      // the app-level check + Firestore rules for full security
-      allow write: if isAuthenticated();
+      // Write requires matching municipality assignment or super-admin role.
+      // Custom claims (role, municipalityId) must be set on admin accounts
+      // via Firebase Admin SDK or the auth_update_user MCP tool.
+      allow write: if isSuperAdmin() || canWriteMunicipality(municipalityId);
     }
 
     // ============================================

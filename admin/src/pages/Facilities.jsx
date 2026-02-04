@@ -92,6 +92,21 @@ function Facilities() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Validation
+    const nameEn = form.nameEn.trim();
+    const nameFr = form.nameFr.trim();
+    const address = form.address.trim();
+
+    if (!nameEn || !nameFr) {
+      alert('Name is required in both English and French');
+      return;
+    }
+
+    if (!address) {
+      alert('Address is required');
+      return;
+    }
+
     // Clean up hours data
     const cleanHours = {};
     for (let i = 0; i < 7; i++) {
@@ -108,12 +123,12 @@ function Facilities() {
     }
 
     const facilityData = {
-      name: { en: form.nameEn, fr: form.nameFr },
-      description: { en: form.descriptionEn, fr: form.descriptionFr },
+      name: { en: nameEn, fr: nameFr },
+      description: { en: form.descriptionEn.trim(), fr: form.descriptionFr.trim() },
       icon: form.icon,
-      address: form.address || null,
-      phone: form.phone || null,
-      website: form.website || null,
+      address: address,
+      phone: form.phone.trim() || null,
+      website: form.website.trim() || null,
       hours: cleanHours,
       updatedAt: new Date().toISOString(),
     };
@@ -129,7 +144,7 @@ function Facilities() {
       setShowModal(false);
       setForm(INITIAL_FORM);
       setEditingId(null);
-      loadFacilities();
+      await loadFacilities();
     } catch (error) {
       alert('Error saving facility: ' + error.message);
     }
@@ -170,7 +185,7 @@ function Facilities() {
 
     try {
       await deleteDoc(doc(db, 'municipalities', municipality, 'facilities', id));
-      loadFacilities();
+      await loadFacilities();
     } catch (error) {
       alert('Error deleting facility: ' + error.message);
     }

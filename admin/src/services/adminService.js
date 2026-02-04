@@ -13,9 +13,10 @@ import {
 } from 'firebase/firestore';
 import {
   createUserWithEmailAndPassword,
-  sendPasswordResetEmail
+  sendPasswordResetEmail,
+  signOut
 } from 'firebase/auth';
-import { auth, db } from '../firebase/config';
+import { auth, db, secondaryAuth } from '../firebase/config';
 
 // ============================================
 // ADMIN USER MANAGEMENT (Super-admin only)
@@ -63,8 +64,8 @@ export async function createAdmin({ email, password, name, municipalityId, role 
     throw new Error(`Invalid role: ${role}`);
   }
 
-  // Create Firebase Auth user
-  const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+  // Create Firebase Auth user using secondary auth to avoid logging out current admin
+  const userCredential = await createUserWithEmailAndPassword(secondaryAuth, email, password);
   const userId = userCredential.user.uid;
 
   // Create admin record in Firestore
@@ -80,7 +81,10 @@ export async function createAdmin({ email, password, name, municipalityId, role 
   });
 
   // Send password reset email so user can set their own password
-  await sendPasswordResetEmail(auth, email);
+  await sendPasswordResetEmail(secondaryAuth, email);
+
+  // Sign out of secondary auth instance to clean up
+  await signOut(secondaryAuth);
 
   return userId;
 }

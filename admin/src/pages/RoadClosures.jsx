@@ -103,10 +103,42 @@ function RoadClosures() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Validation
+    const titleEn = form.titleEn.trim();
+    const titleFr = form.titleFr.trim();
+    const location = form.location.trim();
+
+    if (!titleEn || !titleFr) {
+      alert('Title is required in both English and French');
+      return;
+    }
+
+    if (!location) {
+      alert('Location is required');
+      return;
+    }
+
+    if (!form.startDate) {
+      alert('Start date is required');
+      return;
+    }
+
+    const validSeverities = ['partial', 'full-closure', 'detour'];
+    if (!validSeverities.includes(form.severity)) {
+      alert('Invalid severity type selected');
+      return;
+    }
+
+    const validStatuses = ['active', 'scheduled', 'completed'];
+    if (!validStatuses.includes(form.status)) {
+      alert('Invalid status selected');
+      return;
+    }
+
     const closureData = {
-      title: { en: form.titleEn, fr: form.titleFr },
-      description: { en: form.descriptionEn, fr: form.descriptionFr },
-      location: form.location,
+      title: { en: titleEn, fr: titleFr },
+      description: { en: form.descriptionEn.trim(), fr: form.descriptionFr.trim() },
+      location: location,
       severity: form.severity,
       status: form.status,
       startDate: form.startDate || null,
@@ -128,7 +160,7 @@ function RoadClosures() {
       setForm(INITIAL_FORM);
       setEditingId(null);
       setImagePreview(null);
-      loadClosures();
+      await loadClosures();
     } catch (error) {
       alert('Error saving road closure: ' + error.message);
     }
@@ -168,7 +200,7 @@ function RoadClosures() {
         }
       }
 
-      loadClosures();
+      await loadClosures();
     } catch (error) {
       alert('Error deleting road closure: ' + error.message);
     }
@@ -181,7 +213,7 @@ function RoadClosures() {
         status: newStatus,
         updatedAt: new Date().toISOString(),
       });
-      loadClosures();
+      await loadClosures();
     } catch (error) {
       alert('Error updating road closure: ' + error.message);
     }

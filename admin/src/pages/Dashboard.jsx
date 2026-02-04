@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../firebase/config';
+import { useAuth } from '../contexts/AuthContext';
 
 function Dashboard() {
+  const { municipality } = useAuth();
   const [stats, setStats] = useState({
     announcements: 0,
     activeAnnouncements: 0,
@@ -11,18 +13,20 @@ function Dashboard() {
   });
 
   useEffect(() => {
-    loadStats();
-  }, []);
+    if (municipality) {
+      loadStats();
+    }
+  }, [municipality]);
 
   const loadStats = async () => {
     try {
       // Get announcements count
-      const announcementsSnap = await getDocs(collection(db, 'announcements'));
+      const announcementsSnap = await getDocs(collection(db, 'municipalities', municipality, 'alerts'));
       const announcements = announcementsSnap.docs.map(doc => doc.data());
       const activeAnnouncements = announcements.filter(a => a.active).length;
 
       // Get events count
-      const eventsSnap = await getDocs(collection(db, 'events'));
+      const eventsSnap = await getDocs(collection(db, 'municipalities', municipality, 'events'));
       const events = eventsSnap.docs.map(doc => doc.data());
       const today = new Date().toISOString().split('T')[0];
       const upcomingEvents = events.filter(e => e.date >= today).length;

@@ -52,9 +52,41 @@ function Announcements() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Validation
+    const titleEn = form.titleEn.trim();
+    const titleFr = form.titleFr.trim();
+    const messageEn = form.messageEn.trim();
+    const messageFr = form.messageFr.trim();
+
+    if (!titleEn || !titleFr) {
+      alert('Title is required in both English and French');
+      return;
+    }
+
+    if (titleEn.length > 200 || titleFr.length > 200) {
+      alert('Title must be 200 characters or less');
+      return;
+    }
+
+    if (!messageEn || !messageFr) {
+      alert('Message is required in both English and French');
+      return;
+    }
+
+    if (messageEn.length > 2000 || messageFr.length > 2000) {
+      alert('Message must be 2000 characters or less');
+      return;
+    }
+
+    const validTypes = ['info', 'warning', 'alert', 'success'];
+    if (!validTypes.includes(form.type)) {
+      alert('Invalid announcement type selected');
+      return;
+    }
+
     const announcementData = {
-      title: { en: form.titleEn, fr: form.titleFr },
-      message: { en: form.messageEn, fr: form.messageFr },
+      title: { en: titleEn, fr: titleFr },
+      message: { en: messageEn, fr: messageFr },
       type: form.type,
       active: form.active,
       startDate: form.startDate || null,
@@ -73,7 +105,7 @@ function Announcements() {
       setShowModal(false);
       setForm(INITIAL_FORM);
       setEditingId(null);
-      loadAnnouncements();
+      await loadAnnouncements();
     } catch (error) {
       alert('Error saving announcement: ' + error.message);
     }
@@ -99,7 +131,7 @@ function Announcements() {
 
     try {
       await deleteDoc(doc(db, 'municipalities', municipality, 'alerts', id));
-      loadAnnouncements();
+      await loadAnnouncements();
     } catch (error) {
       alert('Error deleting announcement: ' + error.message);
     }
@@ -111,7 +143,7 @@ function Announcements() {
         active: !announcement.active,
         updatedAt: new Date().toISOString(),
       });
-      loadAnnouncements();
+      await loadAnnouncements();
     } catch (error) {
       alert('Error updating announcement: ' + error.message);
     }

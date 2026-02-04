@@ -67,20 +67,54 @@ function Events() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Validation
+    const titleEn = form.titleEn.trim();
+    const titleFr = form.titleFr.trim();
+    const location = form.location.trim();
+
+    if (!titleEn || !titleFr) {
+      alert('Title is required in both English and French');
+      return;
+    }
+
+    if (!form.date) {
+      alert('Date is required');
+      return;
+    }
+
+    if (!form.time) {
+      alert('Start time is required');
+      return;
+    }
+
+    if (!location) {
+      alert('Location is required');
+      return;
+    }
+
+    let maxParticipants = null;
+    if (form.maxParticipants) {
+      maxParticipants = parseInt(form.maxParticipants);
+      if (isNaN(maxParticipants) || maxParticipants <= 0) {
+        alert('Max participants must be a positive number');
+        return;
+      }
+    }
+
     const eventData = {
-      title: { en: form.titleEn, fr: form.titleFr },
-      description: { en: form.descriptionEn, fr: form.descriptionFr },
+      title: { en: titleEn, fr: titleFr },
+      description: { en: form.descriptionEn.trim(), fr: form.descriptionFr.trim() },
       date: form.date,
       time: form.time,
       endTime: form.endTime || null,
       multiDay: form.multiDay,
       endDate: form.multiDay ? form.endDate : null,
-      location: form.location,
-      address: form.address,
+      location: location,
+      address: form.address.trim(),
       category: form.category,
-      ageGroup: form.ageGroup || null,
+      ageGroup: form.ageGroup.trim() || null,
       residents: form.residents,
-      maxParticipants: form.maxParticipants ? parseInt(form.maxParticipants) : null,
+      maxParticipants: maxParticipants,
       updatedAt: new Date().toISOString(),
     };
 
@@ -95,7 +129,7 @@ function Events() {
       setShowModal(false);
       setForm(INITIAL_FORM);
       setEditingId(null);
-      loadEvents();
+      await loadEvents();
     } catch (error) {
       alert('Error saving event: ' + error.message);
     }
@@ -128,7 +162,7 @@ function Events() {
 
     try {
       await deleteDoc(doc(db, 'municipalities', municipality, 'events', id));
-      loadEvents();
+      await loadEvents();
     } catch (error) {
       alert('Error deleting event: ' + error.message);
     }

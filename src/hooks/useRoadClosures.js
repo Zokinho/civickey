@@ -7,6 +7,7 @@ export function useRoadClosures() {
   const { municipalityId } = useMunicipality();
   const [closures, setClosures] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   const fetchClosures = useCallback(async () => {
     if (!municipalityId) {
@@ -15,6 +16,7 @@ export function useRoadClosures() {
     }
 
     try {
+      setError(null);
       const today = new Date().toISOString().split('T')[0];
 
       // Get active and scheduled road closures
@@ -38,7 +40,8 @@ export function useRoadClosures() {
 
       setClosures(data);
     } catch (error) {
-      console.log('Error fetching road closures:', error.message);
+      console.error('Error fetching road closures:', error.message);
+      setError(error.message);
     } finally {
       setLoading(false);
     }
@@ -48,5 +51,5 @@ export function useRoadClosures() {
     fetchClosures();
   }, [fetchClosures]);
 
-  return { closures, loading, refresh: fetchClosures };
+  return { closures, loading, error, refresh: fetchClosures };
 }

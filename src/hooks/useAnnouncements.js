@@ -7,6 +7,7 @@ export function useAnnouncements() {
   const { municipalityId } = useMunicipality();
   const [announcements, setAnnouncements] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   const fetchAnnouncements = useCallback(async () => {
     if (!municipalityId) {
@@ -15,6 +16,7 @@ export function useAnnouncements() {
     }
 
     try {
+      setError(null);
       const today = new Date().toISOString().split('T')[0];
 
       // Get all active announcements from municipality's alerts collection
@@ -40,7 +42,8 @@ export function useAnnouncements() {
 
       setAnnouncements(data);
     } catch (error) {
-      console.log('Error fetching announcements:', error.message);
+      console.error('Error fetching announcements:', error.message);
+      setError(error.message);
     } finally {
       setLoading(false);
     }
@@ -50,5 +53,5 @@ export function useAnnouncements() {
     fetchAnnouncements();
   }, [fetchAnnouncements]);
 
-  return { announcements, loading, refresh: fetchAnnouncements };
+  return { announcements, loading, error, refresh: fetchAnnouncements };
 }
