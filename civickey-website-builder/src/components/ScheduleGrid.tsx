@@ -97,8 +97,16 @@ export default function ScheduleGrid({ schedule, selectedZoneId, locale }: Sched
         const entry = zoneSchedule[type.id];
         if (!entry) return null;
 
-        const nextDate = getNextCollectionDate(entry);
-        const dayKey = DAY_KEYS[entry.dayOfWeek];
+        let effectiveEntry = entry;
+        if (entry.frequency === 'monthly' && entry.piggybackOn) {
+          const ref = zoneSchedule[entry.piggybackOn];
+          if (ref) {
+            effectiveEntry = { ...entry, dayOfWeek: ref.dayOfWeek, startDate: ref.startDate };
+          }
+        }
+
+        const nextDate = getNextCollectionDate(effectiveEntry);
+        const dayKey = DAY_KEYS[effectiveEntry.dayOfWeek];
         const dayLabel = t(`days.${dayKey}`, locale);
         const frequencyLabel = entry.frequency === 'monthly'
           ? t('collections.monthly', locale)

@@ -137,6 +137,7 @@ export interface CollectionScheduleEntry {
   frequency: string; // "weekly" | "biweekly" | "monthly"
   startDate?: string;
   time?: string;
+  piggybackOn?: string; // collection type ID to derive dayOfWeek/startDate from
 }
 
 export interface ZoneSchedule {

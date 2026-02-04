@@ -217,11 +217,24 @@ export default function HomeScreen() {
       collectionTypes.forEach(type => {
         const typeSchedule = zoneSchedule[type.id];
         if (typeSchedule) {
-          const nextDate = getNextCollectionDate(typeSchedule.dayOfWeek, typeSchedule.frequency, typeSchedule.startDate);
+          // Resolve piggybackOn: use referenced collection's dayOfWeek/startDate
+          let effectiveDayOfWeek = typeSchedule.dayOfWeek;
+          let effectiveStartDate = typeSchedule.startDate;
+          if (typeSchedule.frequency === 'monthly' && typeSchedule.piggybackOn) {
+            const ref = zoneSchedule[typeSchedule.piggybackOn];
+            if (ref) {
+              effectiveDayOfWeek = ref.dayOfWeek;
+              effectiveStartDate = ref.startDate;
+            }
+          }
+
+          const nextDate = getNextCollectionDate(effectiveDayOfWeek, typeSchedule.frequency, effectiveStartDate);
           items.push({
             type: 'regular',
             data: type,
             schedule: typeSchedule,
+            effectiveDayOfWeek,
+            effectiveStartDate,
             date: nextDate,
             sortDate: nextDate.getTime()
           });
@@ -373,7 +386,7 @@ export default function HomeScreen() {
                 </View>
                 <View style={[styles.badge, { backgroundColor: type.color }]}>
                   <Text style={styles.badgeText}>
-                    {getNextCollectionLabel(typeSchedule.dayOfWeek, typeSchedule.frequency, typeSchedule.startDate)}
+                    {getNextCollectionLabel(item.effectiveDayOfWeek, typeSchedule.frequency, item.effectiveStartDate)}
                   </Text>
                 </View>
               </TouchableOpacity>

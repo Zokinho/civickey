@@ -149,6 +149,17 @@ export default function ScheduleScreen() {
           const typeSchedule = zoneSchedule[type.id];
           if (!typeSchedule) return null;
 
+          // Resolve piggybackOn: use referenced collection's dayOfWeek/startDate
+          let effectiveDayOfWeek = typeSchedule.dayOfWeek;
+          let effectiveStartDate = typeSchedule.startDate;
+          if (typeSchedule.frequency === 'monthly' && typeSchedule.piggybackOn) {
+            const ref = zoneSchedule[typeSchedule.piggybackOn];
+            if (ref) {
+              effectiveDayOfWeek = ref.dayOfWeek;
+              effectiveStartDate = ref.startDate;
+            }
+          }
+
           const frequencyText = typeSchedule.frequency === 'monthly'
             ? (language === 'fr' ? 'Mensuel' : 'Monthly')
             : typeSchedule.frequency === 'biweekly'
@@ -170,8 +181,8 @@ export default function ScheduleScreen() {
                 </View>
                 <Text style={[styles.cardSubtitle, { color: themeColors.textSecondary }]}>{type.binSize}</Text>
                 <View style={styles.scheduleInfo}>
-                  <Text style={[styles.dayLabel, { color: themeColors.text }]}>{DAYS[language][typeSchedule.dayOfWeek]}s • {frequencyText}</Text>
-                  <Text style={[styles.nextDate, { color: colors.primary }]}>{t('next')}: {getNextDate(typeSchedule.dayOfWeek, typeSchedule.frequency, typeSchedule.startDate)}</Text>
+                  <Text style={[styles.dayLabel, { color: themeColors.text }]}>{DAYS[language][effectiveDayOfWeek]}s • {frequencyText}</Text>
+                  <Text style={[styles.nextDate, { color: colors.primary }]}>{t('next')}: {getNextDate(effectiveDayOfWeek, typeSchedule.frequency, effectiveStartDate)}</Text>
                 </View>
               </View>
               <Text style={[styles.chevron, { color: themeColors.border }]}>›</Text>

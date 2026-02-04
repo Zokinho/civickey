@@ -603,6 +603,7 @@ function Schedule() {
                       <th>Type</th>
                       <th>Day</th>
                       <th>Frequency</th>
+                      <th>Piggybacks On</th>
                       <th>Start Date (biweekly/monthly)</th>
                       <th>Time</th>
                     </tr>
@@ -635,23 +636,34 @@ function Schedule() {
                             </div>
                           </td>
                           <td>
-                            <select
-                              value={zoneSchedule?.dayOfWeek ?? ''}
-                              onChange={(e) => updateZoneSchedule(zone.id, type.id, 'dayOfWeek', parseInt(e.target.value))}
-                              disabled={!isEnabled || !canEdit}
-                              style={{ minWidth: 120 }}
-                            >
-                              {DAYS_OF_WEEK.map(day => (
-                                <option key={day.value} value={day.value}>
-                                  {day.label}
-                                </option>
-                              ))}
-                            </select>
+                            {zoneSchedule?.frequency === 'monthly' && zoneSchedule?.piggybackOn ? (
+                              <span style={{ color: '#5a6c7d', fontSize: '0.875rem' }}>
+                                {DAYS_OF_WEEK.find(d => d.value === schedules[zone.id]?.[zoneSchedule.piggybackOn]?.dayOfWeek)?.label || '—'}
+                              </span>
+                            ) : (
+                              <select
+                                value={zoneSchedule?.dayOfWeek ?? ''}
+                                onChange={(e) => updateZoneSchedule(zone.id, type.id, 'dayOfWeek', parseInt(e.target.value))}
+                                disabled={!isEnabled || !canEdit}
+                                style={{ minWidth: 120 }}
+                              >
+                                {DAYS_OF_WEEK.map(day => (
+                                  <option key={day.value} value={day.value}>
+                                    {day.label}
+                                  </option>
+                                ))}
+                              </select>
+                            )}
                           </td>
                           <td>
                             <select
                               value={zoneSchedule?.frequency ?? 'weekly'}
-                              onChange={(e) => updateZoneSchedule(zone.id, type.id, 'frequency', e.target.value)}
+                              onChange={(e) => {
+                                updateZoneSchedule(zone.id, type.id, 'frequency', e.target.value);
+                                if (e.target.value !== 'monthly') {
+                                  updateZoneSchedule(zone.id, type.id, 'piggybackOn', '');
+                                }
+                              }}
                               disabled={!isEnabled || !canEdit}
                             >
                               <option value="weekly">Weekly</option>
@@ -660,13 +672,38 @@ function Schedule() {
                             </select>
                           </td>
                           <td>
-                            <input
-                              type="date"
-                              value={zoneSchedule?.startDate ?? ''}
-                              onChange={(e) => updateZoneSchedule(zone.id, type.id, 'startDate', e.target.value)}
-                              disabled={!isEnabled || (zoneSchedule?.frequency !== 'biweekly' && zoneSchedule?.frequency !== 'monthly') || !canEdit}
-                              style={{ minWidth: 140 }}
-                            />
+                            {zoneSchedule?.frequency === 'monthly' ? (
+                              <select
+                                value={zoneSchedule?.piggybackOn ?? ''}
+                                onChange={(e) => updateZoneSchedule(zone.id, type.id, 'piggybackOn', e.target.value)}
+                                disabled={!isEnabled || !canEdit}
+                                style={{ minWidth: 140 }}
+                              >
+                                <option value="">(None — manual)</option>
+                                {collectionTypes
+                                  .filter(ct => ct.id !== type.id && schedules[zone.id]?.[ct.id])
+                                  .map(ct => (
+                                    <option key={ct.id} value={ct.id}>{ct.name.en}</option>
+                                  ))}
+                              </select>
+                            ) : (
+                              <span style={{ color: '#5a6c7d' }}>—</span>
+                            )}
+                          </td>
+                          <td>
+                            {zoneSchedule?.frequency === 'monthly' && zoneSchedule?.piggybackOn ? (
+                              <span style={{ color: '#5a6c7d', fontSize: '0.875rem' }}>
+                                {schedules[zone.id]?.[zoneSchedule.piggybackOn]?.startDate || '—'}
+                              </span>
+                            ) : (
+                              <input
+                                type="date"
+                                value={zoneSchedule?.startDate ?? ''}
+                                onChange={(e) => updateZoneSchedule(zone.id, type.id, 'startDate', e.target.value)}
+                                disabled={!isEnabled || (zoneSchedule?.frequency !== 'biweekly' && zoneSchedule?.frequency !== 'monthly') || !canEdit}
+                                style={{ minWidth: 140 }}
+                              />
+                            )}
                           </td>
                           <td>
                             <input

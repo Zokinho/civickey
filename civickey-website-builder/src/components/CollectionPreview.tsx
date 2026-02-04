@@ -79,9 +79,17 @@ export default function CollectionPreview({ schedule, zones, locale }: Collectio
         const entry = zoneSchedule?.[type.id];
         if (!entry) return null;
 
-        const dayKey = DAY_KEYS[entry.dayOfWeek];
+        let effectiveEntry = entry;
+        if (entry.frequency === 'monthly' && entry.piggybackOn && zoneSchedule) {
+          const ref = zoneSchedule[entry.piggybackOn];
+          if (ref) {
+            effectiveEntry = { ...entry, dayOfWeek: ref.dayOfWeek, startDate: ref.startDate };
+          }
+        }
+
+        const dayKey = DAY_KEYS[effectiveEntry.dayOfWeek];
         const dayLabel = t(`days.${dayKey}`, locale);
-        const nextDate = getNextCollectionDate(entry);
+        const nextDate = getNextCollectionDate(effectiveEntry);
         const nextDateLabel = formatNextDate(nextDate, locale);
         const frequencyLabel = entry.frequency === 'monthly'
           ? t('collections.monthly', locale)
