@@ -5,6 +5,7 @@ import { useEffect, useState, useCallback } from 'react';
 import { Text } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+import ErrorBoundary from './src/components/ErrorBoundary';
 import { LanguageProvider, useLanguage } from './src/contexts/LanguageContext';
 import { MunicipalityProvider, useMunicipality } from './src/contexts/MunicipalityContext';
 import { ThemeProvider, useTheme } from './src/contexts/ThemeContext';
@@ -201,12 +202,14 @@ function AppContent() {
 
 export default function App() {
   return (
-    <ThemeProvider>
-      <LanguageProvider>
-        <MunicipalityProvider>
-          <AppContent />
-        </MunicipalityProvider>
-      </LanguageProvider>
-    </ThemeProvider>
+    <ErrorBoundary>
+      <ThemeProvider>
+        <LanguageProvider>
+          <MunicipalityProvider>
+            <AppContent />
+          </MunicipalityProvider>
+        </LanguageProvider>
+      </ThemeProvider>
+    </ErrorBoundary>
   );
 }

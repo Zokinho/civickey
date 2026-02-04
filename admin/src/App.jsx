@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import ErrorBoundary from './components/ErrorBoundary';
 import { AuthProvider } from './contexts/AuthContext';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import { LoginPage } from './components/LoginPage';
@@ -15,34 +16,36 @@ import './App.css';
 
 function App() {
   return (
-    <AuthProvider>
-      <BrowserRouter>
-        <Routes>
-          {/* Public route */}
-          <Route path="/login" element={<LoginPage />} />
+    <ErrorBoundary>
+      <AuthProvider>
+        <BrowserRouter>
+          <Routes>
+            {/* Public route */}
+            <Route path="/login" element={<LoginPage />} />
 
-          {/* Protected routes */}
-          <Route
-            path="/"
-            element={
-              <ProtectedRoute>
-                <Layout />
-              </ProtectedRoute>
-            }
-          >
-            <Route index element={<Dashboard />} />
-            <Route path="announcements" element={<Announcements />} />
-            <Route path="events" element={<Events />} />
-            <Route path="facilities" element={<Facilities />} />
-            <Route path="schedule" element={<Schedule />} />
-            <Route path="road-closures" element={<RoadClosures />} />
-            <Route path="admins" element={<AdminManagement />} />
-            <Route path="municipalities" element={<MunicipalityManagement />} />
-            <Route path="*" element={<Navigate to="/" replace />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
-    </AuthProvider>
+            {/* Protected routes */}
+            <Route
+              path="/"
+              element={
+                <ProtectedRoute>
+                  <Layout />
+                </ProtectedRoute>
+              }
+            >
+              <Route index element={<Dashboard />} />
+              <Route path="announcements" element={<Announcements />} />
+              <Route path="events" element={<Events />} />
+              <Route path="facilities" element={<Facilities />} />
+              <Route path="schedule" element={<Schedule />} />
+              <Route path="road-closures" element={<RoadClosures />} />
+              <Route path="admins" element={<AdminManagement />} />
+              <Route path="municipalities" element={<MunicipalityManagement />} />
+              <Route path="*" element={<Navigate to="/" replace />} />
+            </Route>
+          </Routes>
+        </BrowserRouter>
+      </AuthProvider>
+    </ErrorBoundary>
   );
 }
 
