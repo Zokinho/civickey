@@ -49,8 +49,33 @@ function WebsiteSettings() {
     }
   }, [municipalityConfig]);
 
+  const validateUrl = (url) => {
+    if (!url) return true;
+    try { new URL(url); return true; } catch { return false; }
+  };
+
+  const validateEmail = (email) => {
+    if (!email) return true;
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  };
+
   const handleSave = async () => {
     if (!canEdit) return;
+
+    const email = form.email.trim();
+    if (email && !validateEmail(email)) {
+      alert('Please enter a valid email address.');
+      return;
+    }
+
+    const urlFields = { facebook: form.facebook, twitter: form.twitter, instagram: form.instagram, youtube: form.youtube };
+    for (const [name, value] of Object.entries(urlFields)) {
+      if (value.trim() && !validateUrl(value.trim())) {
+        alert(`Please enter a valid URL for ${name}.`);
+        return;
+      }
+    }
+
     setLoading(true);
 
     try {
@@ -63,7 +88,7 @@ function WebsiteSettings() {
           footer: {
             address: form.address.trim(),
             phone: form.phone.trim(),
-            email: form.email.trim(),
+            email,
             facebook: form.facebook.trim(),
             twitter: form.twitter.trim(),
             instagram: form.instagram.trim(),
@@ -86,6 +111,13 @@ function WebsiteSettings() {
   const handleHeroImageUpload = async (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
+
+    const MAX_SIZE = 5 * 1024 * 1024; // 5MB
+    if (file.size > MAX_SIZE) {
+      alert('Image must be smaller than 5MB.');
+      e.target.value = '';
+      return;
+    }
 
     try {
       const ext = file.name.split('.').pop();

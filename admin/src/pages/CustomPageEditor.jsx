@@ -84,7 +84,11 @@ function CustomPageEditor() {
   const handleSave = async () => {
     const titleEn = form.titleEn.trim();
     const titleFr = form.titleFr.trim();
-    const slug = form.slug.trim().toLowerCase().replace(/[^a-z0-9-]/g, '-');
+    const slug = form.slug.trim().toLowerCase()
+      .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // transliterate accents
+      .replace(/[^a-z0-9-]/g, '-')
+      .replace(/-+/g, '-') // collapse consecutive dashes
+      .replace(/^-|-$/g, ''); // trim leading/trailing dashes
 
     if (!titleEn || !titleFr) {
       alert('Title is required in both English and French');

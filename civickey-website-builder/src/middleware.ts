@@ -114,8 +114,8 @@ async function resolveCustomDomain(hostname: string): Promise<string | null> {
       }
       return municipalityId;
     }
-  } catch {
-    // Fail silently — custom domain resolution is best-effort
+  } catch (error) {
+    console.error(`[middleware] Custom domain resolution failed for ${hostname}:`, error);
   }
 
   return null;
