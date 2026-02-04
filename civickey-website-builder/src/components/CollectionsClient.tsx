@@ -5,7 +5,6 @@ import type { Locale, ScheduleData, Zone } from '@/lib/types';
 import { t, getLocalizedText } from '@/lib/i18n';
 import ZoneSelector from '@/components/ZoneSelector';
 import ScheduleGrid from '@/components/ScheduleGrid';
-import { Card, CardBody } from '@/components/ui/Card';
 
 interface CollectionsClientProps {
   schedule: ScheduleData | null;
@@ -51,21 +50,29 @@ export default function CollectionsClient({ schedule, zones, locale }: Collectio
       )}
 
       {schedule?.guidelines && (
-        <section>
-          <h2 className="text-xl font-bold text-gray-900 mb-4">
+        <section className="bg-white rounded-xl border border-gray-200 shadow-sm px-6 py-5">
+          <h2 className="text-lg font-bold text-gray-900 mb-3">
             {t('collections.guidelines', locale)}
           </h2>
-          <div className="grid gap-4 sm:grid-cols-2">
-            {Object.entries(schedule.guidelines).map(([key, text]) => (
-              <Card key={key}>
-                <CardBody>
-                  <h3 className="font-semibold text-gray-900 mb-2 capitalize">{key}</h3>
-                  <p className="text-sm text-gray-600">
-                    {getLocalizedText(text, locale)}
-                  </p>
-                </CardBody>
-              </Card>
-            ))}
+          <div className="space-y-3 text-sm text-gray-600">
+            {schedule.guidelines.timing && (
+              <p>{getLocalizedText(schedule.guidelines.timing, locale)}</p>
+            )}
+            {schedule.guidelines.position && (() => {
+              const val = (schedule.guidelines.position as unknown as Record<string, unknown>)[locale]
+                ?? (schedule.guidelines.position as unknown as Record<string, unknown>)['en'];
+              const items = Array.isArray(val) ? val : [];
+              return items.length > 0 ? (
+                <ul className="space-y-1">
+                  {items.map((item: string, i: number) => (
+                    <li key={i} className="flex items-start gap-1.5">
+                      <span className="text-gray-400 mt-0.5">&#8226;</span>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              ) : null;
+            })()}
           </div>
         </section>
       )}

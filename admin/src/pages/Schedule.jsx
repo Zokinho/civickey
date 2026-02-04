@@ -194,13 +194,26 @@ function Schedule() {
       return;
     }
 
-    const existingIndex = collectionTypes.findIndex(t => t.id === editingType.id);
+    // Clean up empty lines from list fields before saving
+    const cleaned = {
+      ...editingType,
+      accepted: {
+        en: (editingType.accepted?.en || []).filter(s => s.trim()),
+        fr: (editingType.accepted?.fr || []).filter(s => s.trim()),
+      },
+      notAccepted: {
+        en: (editingType.notAccepted?.en || []).filter(s => s.trim()),
+        fr: (editingType.notAccepted?.fr || []).filter(s => s.trim()),
+      },
+    };
+
+    const existingIndex = collectionTypes.findIndex(t => t.id === cleaned.id);
     if (existingIndex >= 0) {
       const updated = [...collectionTypes];
-      updated[existingIndex] = editingType;
+      updated[existingIndex] = cleaned;
       setCollectionTypes(updated);
     } else {
-      setCollectionTypes([...collectionTypes, editingType]);
+      setCollectionTypes([...collectionTypes, cleaned]);
     }
     setShowTypeModal(false);
     setEditingType(null);
@@ -1029,7 +1042,7 @@ function Schedule() {
                     value={(editingType.accepted?.en || []).join('\n')}
                     onChange={(e) => setEditingType({
                       ...editingType,
-                      accepted: { ...editingType.accepted, en: e.target.value.split('\n').filter(s => s.trim()) }
+                      accepted: { ...editingType.accepted, en: e.target.value.split('\n') }
                     })}
                     rows={5}
                     placeholder="Metal containers&#10;Glass containers&#10;Plastic containers"
@@ -1041,7 +1054,7 @@ function Schedule() {
                     value={(editingType.accepted?.fr || []).join('\n')}
                     onChange={(e) => setEditingType({
                       ...editingType,
-                      accepted: { ...editingType.accepted, fr: e.target.value.split('\n').filter(s => s.trim()) }
+                      accepted: { ...editingType.accepted, fr: e.target.value.split('\n') }
                     })}
                     rows={5}
                     placeholder="Contenants en métal&#10;Contenants en verre&#10;Contenants en plastique"
@@ -1056,7 +1069,7 @@ function Schedule() {
                     value={(editingType.notAccepted?.en || []).join('\n')}
                     onChange={(e) => setEditingType({
                       ...editingType,
-                      notAccepted: { ...editingType.notAccepted, en: e.target.value.split('\n').filter(s => s.trim()) }
+                      notAccepted: { ...editingType.notAccepted, en: e.target.value.split('\n') }
                     })}
                     rows={5}
                     placeholder="Plastic bags&#10;Styrofoam&#10;Electronics"
@@ -1068,7 +1081,7 @@ function Schedule() {
                     value={(editingType.notAccepted?.fr || []).join('\n')}
                     onChange={(e) => setEditingType({
                       ...editingType,
-                      notAccepted: { ...editingType.notAccepted, fr: e.target.value.split('\n').filter(s => s.trim()) }
+                      notAccepted: { ...editingType.notAccepted, fr: e.target.value.split('\n') }
                     })}
                     rows={5}
                     placeholder="Sacs en plastique&#10;Styromousse&#10;Électroniques"

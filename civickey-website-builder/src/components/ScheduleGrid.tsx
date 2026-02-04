@@ -91,8 +91,18 @@ export default function ScheduleGrid({ schedule, selectedZoneId, locale }: Sched
     );
   }
 
+  const getItemList = (items: unknown): string[] => {
+    if (!items) return [];
+    if (Array.isArray(items)) return items;
+    const obj = items as Record<string, unknown>;
+    const val = obj[locale] ?? obj['en'] ?? obj['fr'];
+    if (Array.isArray(val)) return val;
+    if (typeof val === 'string' && val) return [val];
+    return [];
+  };
+
   return (
-    <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+    <div className="grid gap-5 grid-cols-1">
       {schedule.collectionTypes.map((type) => {
         const entry = zoneSchedule[type.id];
         if (!entry) return null;
@@ -115,42 +125,127 @@ export default function ScheduleGrid({ schedule, selectedZoneId, locale }: Sched
             : t('collections.every_week', locale);
         const nextDateLabel = formatNextDate(nextDate, locale);
 
+        const binName = type.binName ? getLocalizedText(type.binName, locale) : '';
+        const tip = type.tip ? getLocalizedText(type.tip, locale) : '';
+        const accepted = getItemList(type.accepted);
+        const notAccepted = getItemList(type.notAccepted);
+
         return (
           <div
             key={type.id}
             className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden"
           >
             <div
-              className="h-1.5"
+              className="h-2"
               style={{ backgroundColor: type.color }}
             />
-            <div className="px-5 py-4">
-              <div className="flex items-center gap-2.5 mb-3">
-                <div
-                  className="w-4 h-4 rounded-full shrink-0"
-                  style={{ backgroundColor: type.color }}
-                />
-                <h3 className="font-semibold text-gray-900 text-lg">
-                  {getLocalizedText(type.name, locale)}
-                </h3>
+            <div className="px-6 py-5">
+              {/* Header row */}
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center gap-3">
+                  <div
+                    className="w-5 h-5 rounded-full shrink-0"
+                    style={{ backgroundColor: type.color }}
+                  />
+                  <div>
+                    <h3 className="font-semibold text-gray-900 text-lg">
+                      {getLocalizedText(type.name, locale)}
+                    </h3>
+                    {binName && (
+                      <p className="text-sm text-gray-500">
+                        {binName}{type.binSize ? ` — ${type.binSize}` : ''}
+                      </p>
+                    )}
+                  </div>
+                </div>
+                <span
+                  className="text-xs font-medium px-2.5 py-1 rounded-full shrink-0"
+                  style={{ backgroundColor: type.color + '1A', color: type.color }}
+                >
+                  {frequencyLabel}
+                </span>
               </div>
 
-              <div className="space-y-2 text-sm">
-                <div className="flex items-center justify-between">
-                  <span className="text-gray-500">{dayLabel}</span>
-                  <span
-                    className="text-xs font-medium px-2 py-0.5 rounded-full"
-                    style={{ backgroundColor: type.color + '1A', color: type.color }}
-                  >
-                    {frequencyLabel}
-                  </span>
-                </div>
-
-                <div className="flex items-center justify-between pt-2 border-t border-gray-100">
-                  <span className="text-gray-500">{t('collections.next', locale)}</span>
+              {/* Schedule info */}
+              <div className="flex items-center justify-between text-sm py-3 border-y border-gray-100">
+                <span className="text-gray-500">{dayLabel}</span>
+                <div className="text-right">
+                  <span className="text-gray-500">{t('collections.next', locale)} </span>
                   <span className="font-semibold text-gray-900">{nextDateLabel}</span>
                 </div>
               </div>
+
+              {/* Tip */}
+              {tip && (
+                <div
+                  className="mt-4 text-sm rounded-lg px-4 py-3"
+                  style={{ backgroundColor: type.color + '0D' }}
+                >
+                  <span style={{ color: type.color }} className="font-medium">
+                    {locale === 'fr' ? 'Conseil' : 'Tip'}:
+                  </span>{' '}
+                  <span className="text-gray-700">{tip}</span>
+                </div>
+              )}
+
+              {/* Accepted / Not Accepted — collapsible */}
+              {(accepted.length > 0 || notAccepted.length > 0) && (
+                <details className="mt-4 group">
+                  <summary className="cursor-pointer select-none text-sm font-medium text-gray-500 hover:text-gray-700 transition-colors list-none flex items-center gap-1.5">
+                    <svg
+                      className="w-4 h-4 transition-transform group-open:rotate-90"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
+                    {locale === 'fr' ? 'Voir les matières acceptées et refusées' : 'View accepted & not accepted items'}
+                  </summary>
+                  <div className="mt-3 space-y-4">
+                    {accepted.length > 0 && (
+                      <div className="rounded-lg bg-green-50 border border-green-100 px-4 py-3">
+                        <h4 className="text-sm font-semibold text-green-800 mb-2">
+                          {locale === 'fr' ? 'Accepté' : 'Accepted'}
+                        </h4>
+                        <div className="text-sm text-green-900/80 space-y-1.5 leading-relaxed">
+                          {accepted.map((line, i) => {
+                            const isBullet = line.startsWith('- ');
+                            return isBullet ? (
+                              <p key={i} className="flex items-start gap-2">
+                                <span className="text-green-500 mt-0.5 shrink-0">&#10003;</span>
+                                <span>{line.slice(2)}</span>
+                              </p>
+                            ) : (
+                              <p key={i}>{line}</p>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    )}
+                    {notAccepted.length > 0 && (
+                      <div className="rounded-lg bg-red-50 border border-red-100 px-4 py-3">
+                        <h4 className="text-sm font-semibold text-red-800 mb-2">
+                          {locale === 'fr' ? 'Refusé' : 'Not accepted'}
+                        </h4>
+                        <div className="text-sm text-red-900/80 space-y-1.5 leading-relaxed">
+                          {notAccepted.map((line, i) => {
+                            const isBullet = line.startsWith('- ');
+                            return isBullet ? (
+                              <p key={i} className="flex items-start gap-2">
+                                <span className="text-red-400 mt-0.5 shrink-0">&#10007;</span>
+                                <span>{line.slice(2)}</span>
+                              </p>
+                            ) : (
+                              <p key={i}>{line}</p>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </details>
+              )}
             </div>
           </div>
         );

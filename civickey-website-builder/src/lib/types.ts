@@ -130,6 +130,11 @@ export interface CollectionType {
   name: BilingualText;
   color: string;
   icon?: string;
+  binName?: BilingualText;
+  binSize?: string;
+  accepted?: BilingualText | { en: string[]; fr: string[] };
+  notAccepted?: BilingualText | { en: string[]; fr: string[] };
+  tip?: BilingualText;
 }
 
 export interface CollectionScheduleEntry {
