@@ -74,6 +74,19 @@ service cloud.firestore {
         allow read: if true;
         allow create, update, delete: if hasRole(municipalityId, 'editor');
       }
+
+      match /wasteItems/{itemId} {
+        allow read: if true;
+        allow create, update, delete: if hasRole(municipalityId, 'editor');
+      }
+    }
+
+    match /suggestedWasteItems/{itemId} {
+      allow read: if isAuthenticated();
+      allow create, delete: if isSuperAdmin();
+      allow update: if isSuperAdmin() ||
+        (isAuthenticated() &&
+         request.resource.data.diff(resource.data).affectedKeys().hasOnly(['acceptedBy', 'dismissedBy']));
     }
 
     match /{document=**} {

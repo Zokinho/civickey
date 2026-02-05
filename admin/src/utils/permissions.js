@@ -91,6 +91,22 @@ export const PERMISSIONS = {
     edit: (role) => hasMinRole(role, ROLES.ADMIN)
   },
 
+  // Waste Items (What Goes Where) - editor+ can manage
+  wasteItems: {
+    view: () => true,
+    create: (role) => hasMinRole(role, ROLES.EDITOR),
+    edit: (role) => hasMinRole(role, ROLES.EDITOR),
+    delete: (role) => hasMinRole(role, ROLES.EDITOR)
+  },
+
+  // Suggested Waste Items - super-admin CRUD, all authenticated can view
+  suggestedWasteItems: {
+    view: (role) => hasMinRole(role, ROLES.VIEWER),
+    create: (role) => role === ROLES.SUPER_ADMIN,
+    edit: (role) => role === ROLES.SUPER_ADMIN,
+    delete: (role) => role === ROLES.SUPER_ADMIN
+  },
+
   // Custom Pages - editor+ can manage
   customPages: {
     view: () => true,
