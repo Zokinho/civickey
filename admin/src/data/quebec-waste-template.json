@@ -33,7 +33,21 @@
         { "nameFr": "Pellicule plastique", "nameEn": "Plastic wrap", "noteFr": "Propre, en boule", "noteEn": "Clean, balled up", "aliases": ["saran wrap", "cling wrap", "pellicule etirable"] },
         { "nameFr": "Barquette de champignons", "nameEn": "Mushroom container", "aliases": ["barquette plastique", "clamshell"] },
         { "nameFr": "Contenant de margarine", "nameEn": "Margarine tub", "aliases": ["pot margarine", "butter container"] },
-        { "nameFr": "Bouteille de shampoing", "nameEn": "Shampoo bottle", "aliases": ["shampooing", "conditioner bottle"] }
+        { "nameFr": "Bouteille de shampoing", "nameEn": "Shampoo bottle", "aliases": ["shampooing", "conditioner bottle"] },
+        { "nameFr": "Bouteille de détergent", "nameEn": "Detergent bottle", "noteFr": "Rincer avant", "noteEn": "Rinse first", "aliases": ["savon lessive", "laundry detergent", "dish soap bottle"] },
+        { "nameFr": "Pot de beurre d'arachide", "nameEn": "Peanut butter jar", "noteFr": "Rincer ou gratter", "noteEn": "Rinse or scrape clean", "aliases": ["peanut butter", "beurre arachide"] },
+        { "nameFr": "Barquette de petits fruits", "nameEn": "Berry container", "aliases": ["barquette fraises", "strawberry container", "clamshell container"] },
+        { "nameFr": "Boîte de mouchoirs", "nameEn": "Tissue box", "noteFr": "La boîte seulement, pas les mouchoirs", "noteEn": "The box only, not the tissues", "aliases": ["kleenex box"] },
+        { "nameFr": "Cannette de bière", "nameEn": "Beer can", "aliases": ["canette biere", "beer"] },
+        { "nameFr": "Bouchon de plastique", "nameEn": "Plastic cap", "noteFr": "Laisser sur la bouteille", "noteEn": "Leave on the bottle", "aliases": ["bottle cap", "bouchon bouteille"] },
+        { "nameFr": "Bouteille de vin", "nameEn": "Wine bottle", "aliases": ["bouteille vin", "wine"] },
+        { "nameFr": "Boîte de livraison", "nameEn": "Shipping box", "noteFr": "Aplatir et retirer le ruban", "noteEn": "Flatten and remove tape", "aliases": ["boite amazon", "amazon box", "cardboard shipping box"] },
+        { "nameFr": "Papier d'emballage", "nameEn": "Wrapping paper", "noteFr": "Papier uni seulement, pas métallique", "noteEn": "Plain paper only, not metallic", "aliases": ["gift wrap", "papier cadeau"] },
+        { "nameFr": "Calendrier", "nameEn": "Calendar", "aliases": ["calendar"] },
+        { "nameFr": "Enveloppe à fenêtre", "nameEn": "Window envelope", "noteFr": "Accepté avec la fenêtre en plastique", "noteEn": "Accepted with plastic window", "aliases": ["envelope window"] },
+        { "nameFr": "Boîte de médicaments", "nameEn": "Medicine box", "noteFr": "Carton seulement", "noteEn": "Cardboard only", "aliases": ["pill box", "medication box"] },
+        { "nameFr": "Nourriture pour animaux", "nameEn": "Pet food can", "noteFr": "Rincer avant", "noteEn": "Rinse first", "aliases": ["canne chat", "cat food can", "dog food can"] },
+        { "nameFr": "Bouteille de savon à vaisselle", "nameEn": "Dish soap bottle", "aliases": ["savon vaisselle", "dawn bottle"] }
       ]
     },
     "compost": {
@@ -64,7 +78,20 @@
         { "nameFr": "Papier journal souillé", "nameEn": "Soiled newspaper", "aliases": ["journal souille"] },
         { "nameFr": "Carton souillé", "nameEn": "Soiled cardboard", "noteFr": "Pizza box graisseuse va ici", "noteEn": "Greasy pizza box goes here", "aliases": ["boite pizza sale", "greasy cardboard"] },
         { "nameFr": "Cure-dent", "nameEn": "Toothpick", "aliases": ["cure-dents", "toothpicks"] },
-        { "nameFr": "Plumes", "nameEn": "Feathers", "aliases": ["feather"] }
+        { "nameFr": "Plumes", "nameEn": "Feathers", "aliases": ["feather"] },
+        { "nameFr": "Pelure de banane", "nameEn": "Banana peel", "aliases": ["banane", "banana"] },
+        { "nameFr": "Pelure d'orange", "nameEn": "Orange peel", "aliases": ["orange", "agrume", "citrus peel", "pelure citron", "lemon peel"] },
+        { "nameFr": "Trognon de pomme", "nameEn": "Apple core", "aliases": ["pomme", "apple", "coeur de pomme"] },
+        { "nameFr": "Croûte de pizza", "nameEn": "Pizza crust", "aliases": ["pizza crust", "croute"] },
+        { "nameFr": "Coquille de fruits de mer", "nameEn": "Seafood shell", "aliases": ["coquille crabe", "crab shell", "lobster shell", "coquille homard", "shrimp shell", "coquille crevette"] },
+        { "nameFr": "Bâton de popsicle", "nameEn": "Popsicle stick", "aliases": ["baton popsicle", "ice cream stick", "baton bois"] },
+        { "nameFr": "Plante d'intérieur morte", "nameEn": "Dead houseplant", "noteFr": "Terre incluse", "noteEn": "Soil included", "aliases": ["plante morte", "dead plant", "houseplant", "potting soil", "terreau"] },
+        { "nameFr": "Bouchon de liège", "nameEn": "Wine cork", "noteFr": "Liège naturel seulement", "noteEn": "Natural cork only", "aliases": ["liege", "cork"] },
+        { "nameFr": "Noyau d'avocat", "nameEn": "Avocado pit", "aliases": ["avocat", "avocado", "noyau"] },
+        { "nameFr": "Mousse de sécheuse", "nameEn": "Dryer lint", "noteFr": "Fibres naturelles seulement", "noteEn": "Natural fibers only", "aliases": ["lint", "charpie"] },
+        { "nameFr": "Assiette en carton", "nameEn": "Paper plate", "noteFr": "Non cirée seulement", "noteEn": "Uncoated only", "aliases": ["paper plates", "assiette papier"] },
+        { "nameFr": "Baguettes en bois", "nameEn": "Wooden chopsticks", "aliases": ["chopsticks", "baguettes chinoises"] },
+        { "nameFr": "Noyau de pêche", "nameEn": "Peach pit", "aliases": ["peche", "peach", "noyau cerise", "cherry pit", "noyau prune", "plum pit"] }
       ]
     },
     "ordures": {
@@ -95,7 +122,27 @@
         { "nameFr": "Tube de dentifrice", "nameEn": "Toothpaste tube", "aliases": ["dentifrice", "toothpaste"] },
         { "nameFr": "Jouet en plastique cassé", "nameEn": "Broken plastic toy", "aliases": ["jouet casse", "broken toy"] },
         { "nameFr": "CD et DVD", "nameEn": "CDs and DVDs", "aliases": ["cd", "dvd", "disque"] },
-        { "nameFr": "Emballage de chips", "nameEn": "Chip bag", "aliases": ["sac chips", "chip wrapper", "emballage metallise"] }
+        { "nameFr": "Emballage de chips", "nameEn": "Chip bag", "aliases": ["sac chips", "chip wrapper", "emballage metallise"] },
+        { "nameFr": "Masque jetable", "nameEn": "Disposable mask", "aliases": ["masque", "mask", "masque chirurgical", "surgical mask", "n95"] },
+        { "nameFr": "Gant en latex", "nameEn": "Latex glove", "aliases": ["gants", "gloves", "gant nitrile", "nitrile glove", "rubber glove"] },
+        { "nameFr": "Produit hygiénique", "nameEn": "Feminine hygiene product", "aliases": ["tampon", "serviette hygienique", "pad", "sanitary pad"] },
+        { "nameFr": "Coton-tige", "nameEn": "Cotton swab", "aliases": ["q-tip", "qtip", "ear swab"] },
+        { "nameFr": "Lentille de contact", "nameEn": "Contact lens", "aliases": ["lentilles", "contacts", "contact lenses"] },
+        { "nameFr": "Brosse à dents", "nameEn": "Toothbrush", "aliases": ["toothbrush"] },
+        { "nameFr": "Sac de café", "nameEn": "Coffee bag", "noteFr": "Emballage avec doublure métallique", "noteEn": "Foil-lined packaging", "aliases": ["coffee bag foil", "sac cafe"] },
+        { "nameFr": "Emballage à bulles", "nameEn": "Bubble wrap", "noteFr": "Non recyclable au Québec", "noteEn": "Not recyclable in Quebec", "aliases": ["bubble wrap", "papier bulle"] },
+        { "nameFr": "Reçu de caisse", "nameEn": "Receipt", "noteFr": "Papier thermique non recyclable", "noteEn": "Thermal paper not recyclable", "aliases": ["receipt", "facture", "ticket de caisse"] },
+        { "nameFr": "Papier d'emballage métallique", "nameEn": "Metallic wrapping paper", "aliases": ["papier cadeau metallique", "foil wrapping paper", "shiny wrapping paper"] },
+        { "nameFr": "Ballon", "nameEn": "Balloon", "aliases": ["ballons", "balloons", "ballon latex", "ballon mylar"] },
+        { "nameFr": "Chandelle", "nameEn": "Candle", "aliases": ["bougie", "candles", "chandelles", "cire", "wax"] },
+        { "nameFr": "Tuyau d'arrosage", "nameEn": "Garden hose", "aliases": ["hose", "tuyau jardin"] },
+        { "nameFr": "Casque de vélo", "nameEn": "Bike helmet", "noteFr": "Remplacer après un impact", "noteEn": "Replace after impact", "aliases": ["helmet", "casque velo", "bicycle helmet"] },
+        { "nameFr": "Lunettes", "nameEn": "Eyeglasses", "noteFr": "Peuvent aussi être données", "noteEn": "Can also be donated", "aliases": ["glasses", "lunettes soleil", "sunglasses"] },
+        { "nameFr": "Emballage de pilules", "nameEn": "Blister pack", "noteFr": "Emballage plastique-aluminium", "noteEn": "Plastic-aluminum packaging", "aliases": ["pill packaging", "plaquette medicament", "blister packaging"] },
+        { "nameFr": "Vêtement non donnable", "nameEn": "Non-donatable clothing", "noteFr": "Taché ou déchiré", "noteEn": "Stained or torn", "aliases": ["vetements uses", "worn clothes", "ripped clothes"] },
+        { "nameFr": "Chaussure usée", "nameEn": "Worn out shoe", "aliases": ["souliers uses", "old shoes", "worn shoes"] },
+        { "nameFr": "Sac d'aspirateur", "nameEn": "Vacuum bag", "aliases": ["vacuum cleaner bag", "sac aspirateur"] },
+        { "nameFr": "Feuille d'assouplissant", "nameEn": "Dryer sheet", "aliases": ["dryer sheets", "assouplissant"] }
       ]
     },
     "ecocentre": {
@@ -121,7 +168,25 @@
         { "nameFr": "Thermomètre au mercure", "nameEn": "Mercury thermometer", "aliases": ["mercure", "mercury", "thermometre"] },
         { "nameFr": "Cartouche d'encre", "nameEn": "Ink cartridge", "aliases": ["encre", "ink", "toner", "cartouche imprimante"] },
         { "nameFr": "Réfrigérateur", "nameEn": "Refrigerator", "aliases": ["frigo", "fridge", "congelateur", "freezer"] },
-        { "nameFr": "Matelas", "nameEn": "Mattress", "aliases": ["sommier", "box spring"] }
+        { "nameFr": "Matelas", "nameEn": "Mattress", "aliases": ["sommier", "box spring"] },
+        { "nameFr": "Batterie d'auto", "nameEn": "Car battery", "aliases": ["batterie voiture", "car battery", "automotive battery"] },
+        { "nameFr": "Tube fluorescent", "nameEn": "Fluorescent tube", "noteFr": "Différent des ampoules fluocompactes", "noteEn": "Different from CFL bulbs", "aliases": ["tube neon", "fluorescent light", "neon tube"] },
+        { "nameFr": "Détecteur de fumée", "nameEn": "Smoke detector", "noteFr": "Contient élément radioactif", "noteEn": "Contains radioactive element", "aliases": ["detecteur incendie", "fire alarm", "smoke alarm", "detecteur monoxyde", "carbon monoxide detector"] },
+        { "nameFr": "Antigel", "nameEn": "Antifreeze", "aliases": ["coolant", "liquide refroidissement"] },
+        { "nameFr": "Produit de piscine", "nameEn": "Pool chemical", "aliases": ["chlore", "chlorine", "pool chlorine", "produit chimique piscine"] },
+        { "nameFr": "Engrais", "nameEn": "Fertilizer", "noteFr": "Grandes quantités seulement", "noteEn": "Large quantities only", "aliases": ["fertilizer", "fertilisant"] },
+        { "nameFr": "Herbicide", "nameEn": "Herbicide", "aliases": ["weed killer", "desherbant", "roundup"] },
+        { "nameFr": "Micro-ondes", "nameEn": "Microwave", "aliases": ["microwave oven", "four micro-ondes"] },
+        { "nameFr": "Grille-pain", "nameEn": "Toaster", "aliases": ["toaster", "toaster oven", "four grille-pain"] },
+        { "nameFr": "Aspirateur", "nameEn": "Vacuum cleaner", "aliases": ["vacuum", "aspirateur traineau"] },
+        { "nameFr": "Imprimante", "nameEn": "Printer", "aliases": ["printer", "imprimante laser", "imprimante jet encre"] },
+        { "nameFr": "Chaise de jardin en plastique", "nameEn": "Plastic lawn chair", "aliases": ["lawn chair", "patio chair", "chaise patio", "outdoor furniture"] },
+        { "nameFr": "Piscine pour enfant", "nameEn": "Kiddie pool", "aliases": ["kiddie pool", "pataugeoire", "inflatable pool", "piscine gonflable"] },
+        { "nameFr": "Tapis", "nameEn": "Carpet", "aliases": ["rug", "moquette", "area rug", "carpette"] },
+        { "nameFr": "Vitre", "nameEn": "Window glass", "noteFr": "Différent du verre de bouteille", "noteEn": "Different from bottle glass", "aliases": ["fenetre", "window pane", "glass pane", "vitre cassee"] },
+        { "nameFr": "Climatiseur", "nameEn": "Air conditioner", "aliases": ["air conditioner", "AC unit", "climatiseur portatif", "window AC"] },
+        { "nameFr": "Vélo", "nameEn": "Bicycle", "noteFr": "Peut aussi être donné", "noteEn": "Can also be donated", "aliases": ["bike", "bicyclette"] },
+        { "nameFr": "Barbecue", "nameEn": "BBQ grill", "aliases": ["bbq", "grill", "barbecue propane", "charcoal grill"] }
       ]
     }
   }
