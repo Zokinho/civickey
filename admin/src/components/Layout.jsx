@@ -106,6 +106,10 @@ function Layout() {
             <span className="icon">🗓️</span>
             Schedule
           </NavLink>
+          <NavLink to="/waste-items" className={({ isActive }) => isActive ? 'active' : ''}>
+            <span className="icon">🔍</span>
+            What Goes Where
+          </NavLink>
           <NavLink to="/road-closures" className={({ isActive }) => isActive ? 'active' : ''}>
             <span className="icon">🚧</span>
             Road Closures
