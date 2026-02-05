@@ -99,5 +99,12 @@
   "website": "Site web",
   "specialCollections": "Collectes spéciales",
   "specialCollection": "Collecte spéciale",
-  "oneTimeEvent": "Événements de collecte ponctuels"
+  "oneTimeEvent": "Événements de collecte ponctuels",
+  "search": {
+    "placeholder": "Où va...?",
+    "noResults": "Aucun résultat",
+    "noResultsHelp": "Contactez votre municipalité pour plus d'informations",
+    "minChars": "Tapez au moins 2 caractères",
+    "title": "Où ça va?"
+  }
 }

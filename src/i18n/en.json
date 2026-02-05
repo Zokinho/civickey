@@ -99,5 +99,12 @@
   "website": "Website",
   "specialCollections": "Special Collections",
   "specialCollection": "Special Collection",
-  "oneTimeEvent": "One-time collection events"
+  "oneTimeEvent": "One-time collection events",
+  "search": {
+    "placeholder": "Where does... go?",
+    "noResults": "No results found",
+    "noResultsHelp": "Contact your municipality for more information",
+    "minChars": "Type at least 2 characters",
+    "title": "What Goes Where"
+  }
 }

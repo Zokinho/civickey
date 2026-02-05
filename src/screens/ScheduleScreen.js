@@ -5,6 +5,9 @@ import { useLanguage } from '../hooks/useLanguage';
 import { useMunicipality } from '../contexts/MunicipalityContext';
 import { useTheme } from '../contexts/ThemeContext';
 import OfflineBanner from '../components/OfflineBanner';
+import WasteSearchBar from '../components/waste-search/WasteSearchBar';
+import WasteSearchOverlay from '../components/waste-search/WasteSearchOverlay';
+import { useWasteItems } from '../hooks/useWasteItems';
 
 const DAYS = {
   en: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
@@ -14,6 +17,7 @@ const DAYS = {
 export default function ScheduleScreen() {
   const [selectedType, setSelectedType] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
+  const [searchVisible, setSearchVisible] = useState(false);
   const { language, t } = useLanguage();
   const { zoneId, schedule, config, getZoneSchedule, getThemeColors, getUpcomingSpecialCollections } = useMunicipality();
   const { colors: themeColors, isDark } = useTheme();
@@ -25,6 +29,7 @@ export default function ScheduleScreen() {
   const zoneSchedule = getZoneSchedule();
   const collectionTypes = schedule?.collectionTypes || [];
   const guidelines = schedule?.guidelines || {};
+  const { items: wasteItems, searchItems } = useWasteItems();
 
   // Helper to safely get localized text
   const getLocalizedText = (obj, fallback = '') => {
@@ -141,6 +146,10 @@ export default function ScheduleScreen() {
       </View>
 
       <OfflineBanner />
+
+      {wasteItems.length > 0 && (
+        <WasteSearchBar onPress={() => setSearchVisible(true)} />
+      )}
 
       <ScrollView style={styles.content}>
         <Text style={[styles.hint, { color: themeColors.textSecondary }]}>{t('tapForDetails')}</Text>
@@ -261,6 +270,13 @@ export default function ScheduleScreen() {
 
         <Text style={[styles.source, { color: themeColors.textMuted }]}>{t('source')}: ville.saint-lazare.qc.ca</Text>
       </ScrollView>
+
+      <WasteSearchOverlay
+        visible={searchVisible}
+        onClose={() => setSearchVisible(false)}
+        searchItems={searchItems}
+        collectionTypes={collectionTypes}
+      />
 
       {/* Details Modal */}
       <Modal
