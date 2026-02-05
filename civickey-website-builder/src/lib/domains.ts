@@ -1,16 +1,19 @@
-import { db } from './firebase';
-import { collection, getDocs, query, where } from 'firebase/firestore/lite';
+import { queryCollection, toFirestoreValue } from './firebase-admin';
 import type { MunicipalityConfig } from './types';
 
 export async function getMunicipalityByDomain(
   domain: string
 ): Promise<MunicipalityConfig | null> {
-  const q = query(
-    collection(db, 'municipalities'),
-    where('website.customDomain', '==', domain)
-  );
-  const snap = await getDocs(q);
-  if (snap.empty) return null;
-  const d = snap.docs[0];
-  return { id: d.id, ...d.data() } as MunicipalityConfig;
+  const docs = await queryCollection('municipalities', {
+    filters: [{
+      fieldFilter: {
+        field: { fieldPath: 'website.customDomain' },
+        op: 'EQUAL',
+        value: toFirestoreValue(domain),
+      },
+    }],
+    limit: 1,
+  });
+  if (docs.length === 0) return null;
+  return { id: docs[0].id, ...docs[0].data } as MunicipalityConfig;
 }

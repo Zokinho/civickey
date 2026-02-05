@@ -1,6 +1,10 @@
+'use client';
+
+import { useState } from 'react';
 import type { Locale, ScheduleData, Zone, CollectionScheduleEntry } from '@/lib/types';
 import { getLocalizedText, t } from '@/lib/i18n';
 import { Card, CardBody } from '@/components/ui/Card';
+import ZoneSelector from '@/components/ZoneSelector';
 
 interface CollectionPreviewProps {
   schedule: ScheduleData | null;
@@ -33,7 +37,7 @@ function getNextCollectionDate(entry: CollectionScheduleEntry): Date {
     const start = new Date(entry.startDate + 'T00:00:00');
     for (let monthOffset = 0; monthOffset <= 1; monthOffset++) {
       const monthStart = new Date(now.getFullYear(), now.getMonth() + monthOffset, 1);
-      let firstOccurrence = new Date(monthStart);
+      const firstOccurrence = new Date(monthStart);
       let diff = entry.dayOfWeek - monthStart.getDay();
       if (diff < 0) diff += 7;
       firstOccurrence.setDate(1 + diff);
@@ -67,67 +71,104 @@ function formatNextDate(date: Date, locale: Locale): string {
 }
 
 export default function CollectionPreview({ schedule, zones, locale }: CollectionPreviewProps) {
+  const [selectedZone, setSelectedZone] = useState<string>(
+    zones.length > 0 ? zones[0].id : ''
+  );
+
   if (!schedule || !schedule.collectionTypes || zones.length === 0) return null;
 
-  // Show schedule for the first zone as a preview
-  const zone = zones[0];
-  const zoneSchedule = schedule.schedules?.[zone.id];
+  const zoneSchedule = schedule.schedules?.[selectedZone];
+
+  // Count visible cards to pick adaptive grid columns
+  const visibleCount = zoneSchedule
+    ? schedule.collectionTypes.filter((type) => zoneSchedule[type.id]).length
+    : 0;
+
+  function getGridCols(count: number): string {
+    if (count <= 1) return 'grid-cols-1';
+    if (count === 2) return 'grid-cols-1 sm:grid-cols-2';
+    if (count === 4) return 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-4';
+    return 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3';
+  }
 
   return (
-    <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-      {schedule.collectionTypes.map((type) => {
-        const entry = zoneSchedule?.[type.id];
-        if (!entry) return null;
+    <div className="space-y-4">
+      {zones.length > 1 && (
+        <div className="flex flex-wrap items-end justify-between gap-4">
+          <ZoneSelector
+            zones={zones}
+            locale={locale}
+            selectedZone={selectedZone}
+            onSelect={setSelectedZone}
+          />
+          <a
+            href="https://contenu.maruche.ca/Fichiers/228290ed-49b5-4dff-af87-e59de42eefd0/Sites/22d38d6f-ef7d-ec11-81d5-00155d000708/Images/Cartes/CarteCollecteParSecteur.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 text-sm font-medium px-4 py-2 rounded-lg border border-gray-300 hover:bg-gray-50 transition-colors"
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
+            </svg>
+            {locale === 'fr' ? 'Carte des secteurs' : 'Zone Map'}
+          </a>
+        </div>
+      )}
+      <div className={`grid gap-4 ${getGridCols(visibleCount)}`}>
+        {schedule.collectionTypes.map((type) => {
+          const entry = zoneSchedule?.[type.id];
+          if (!entry) return null;
 
-        let effectiveEntry = entry;
-        if (entry.frequency === 'monthly' && entry.piggybackOn && zoneSchedule) {
-          const ref = zoneSchedule[entry.piggybackOn];
-          if (ref) {
-            effectiveEntry = { ...entry, dayOfWeek: ref.dayOfWeek, startDate: ref.startDate };
+          let effectiveEntry = entry;
+          if (entry.frequency === 'monthly' && entry.piggybackOn && zoneSchedule) {
+            const ref = zoneSchedule[entry.piggybackOn];
+            if (ref) {
+              effectiveEntry = { ...entry, dayOfWeek: ref.dayOfWeek, startDate: ref.startDate };
+            }
           }
-        }
 
-        const dayKey = DAY_KEYS[effectiveEntry.dayOfWeek];
-        const dayLabel = t(`days.${dayKey}`, locale);
-        const nextDate = getNextCollectionDate(effectiveEntry);
-        const nextDateLabel = formatNextDate(nextDate, locale);
-        const frequencyLabel = entry.frequency === 'monthly'
-          ? t('collections.monthly', locale)
-          : entry.frequency === 'biweekly'
-            ? t('collections.every_two_weeks', locale)
-            : t('collections.every_week', locale);
+          const dayKey = DAY_KEYS[effectiveEntry.dayOfWeek];
+          const dayLabel = t(`days.${dayKey}`, locale);
+          const nextDate = getNextCollectionDate(effectiveEntry);
+          const nextDateLabel = formatNextDate(nextDate, locale);
+          const frequencyLabel = entry.frequency === 'monthly'
+            ? t('collections.monthly', locale)
+            : entry.frequency === 'biweekly'
+              ? t('collections.every_two_weeks', locale)
+              : t('collections.every_week', locale);
 
-        return (
-          <Card key={type.id}>
-            <CardBody>
-              <div className="flex items-center gap-2 mb-3">
-                <div
-                  className="w-3 h-3 rounded-full"
-                  style={{ backgroundColor: type.color }}
-                />
-                <h3 className="font-semibold text-gray-900">
-                  {getLocalizedText(type.name, locale)}
-                </h3>
-              </div>
-              <div className="space-y-1.5 text-sm text-gray-600">
-                <div className="flex justify-between">
-                  <span>{dayLabel}</span>
-                  <span
-                    className="text-xs font-medium px-2 py-0.5 rounded-full"
-                    style={{ backgroundColor: type.color + '1A', color: type.color }}
-                  >
-                    {frequencyLabel}
-                  </span>
+          return (
+            <Card key={type.id}>
+              <CardBody>
+                <div className="flex items-center gap-2 mb-3">
+                  <div
+                    className="w-3 h-3 rounded-full"
+                    style={{ backgroundColor: type.color }}
+                  />
+                  <h3 className="font-semibold text-gray-900">
+                    {getLocalizedText(type.name, locale)}
+                  </h3>
                 </div>
-                <div className="flex justify-between pt-1.5 border-t border-gray-100">
-                  <span>{t('collections.next', locale)}</span>
-                  <span className="font-semibold text-gray-900">{nextDateLabel}</span>
+                <div className="space-y-1.5 text-sm text-gray-600">
+                  <div className="flex justify-between">
+                    <span>{dayLabel}</span>
+                    <span
+                      className="text-xs font-medium px-2 py-0.5 rounded-full"
+                      style={{ backgroundColor: type.color + '1A', color: type.color }}
+                    >
+                      {frequencyLabel}
+                    </span>
+                  </div>
+                  <div className="flex justify-between pt-1.5 border-t border-gray-100">
+                    <span>{t('collections.next', locale)}</span>
+                    <span className="font-semibold text-gray-900">{nextDateLabel}</span>
+                  </div>
                 </div>
-              </div>
-            </CardBody>
-          </Card>
-        );
-      })}
+              </CardBody>
+            </Card>
+          );
+        })}
+      </div>
     </div>
   );
 }
