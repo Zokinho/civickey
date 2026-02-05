@@ -109,7 +109,7 @@ export interface Facility {
 }
 
 export interface FacilityHours {
-  [day: string]: { open: string; close: string } | null;
+  [key: string]: { open: string; close: string; closed?: boolean } | null;
 }
 
 export interface Zone {
