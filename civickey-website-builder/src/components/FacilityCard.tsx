@@ -41,11 +41,12 @@ function checkIfOpen(hours: Facility['hours']): boolean {
   if (!hours) return false;
 
   const now = new Date();
+  const todayIndex = now.getDay(); // 0=Sunday
   const dayNames = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
-  const today = dayNames[now.getDay()];
-  const todayHours = hours[today];
+  // Firestore stores hours with numeric keys ("0"=Sunday, "1"=Monday, etc.)
+  const todayHours = hours[todayIndex] ?? hours[dayNames[todayIndex]];
 
-  if (!todayHours) return false;
+  if (!todayHours || todayHours.closed) return false;
 
   const currentMinutes = now.getHours() * 60 + now.getMinutes();
   const [openH, openM] = todayHours.open.split(':').map(Number);

@@ -304,18 +304,28 @@ export default function ScheduleScreen() {
                   {(getLocalizedText(selectedType.accepted, []) || []).length > 0 && (
                     <>
                       <Text style={styles.sectionLabel}>✓ {t('accepted')}</Text>
-                      {(getLocalizedText(selectedType.accepted, []) || []).map((item, index) => (
-                        <Text key={index} style={[styles.acceptedItem, { color: themeColors.text }]}>• {item}</Text>
-                      ))}
+                      {(getLocalizedText(selectedType.accepted, []) || []).map((item, index) => {
+                        const isBullet = item.startsWith('- ') || item.startsWith('-');
+                        return (
+                          <Text key={index} style={[isBullet ? styles.acceptedItem : styles.acceptedIntro, { color: themeColors.text }]}>
+                            {isBullet ? `• ${item.replace(/^-\s*/, '')}` : item}
+                          </Text>
+                        );
+                      })}
                     </>
                   )}
 
                   {(getLocalizedText(selectedType.notAccepted, []) || []).length > 0 && (
                     <>
                       <Text style={[styles.sectionLabel, { color: themeColors.error, marginTop: 20 }]}>✗ {t('notAccepted')}</Text>
-                      {(getLocalizedText(selectedType.notAccepted, []) || []).map((item, index) => (
-                        <Text key={index} style={[styles.notAcceptedItem, { color: themeColors.textSecondary }]}>• {item}</Text>
-                      ))}
+                      {(getLocalizedText(selectedType.notAccepted, []) || []).map((item, index) => {
+                        const isBullet = item.startsWith('- ') || item.startsWith('-');
+                        return (
+                          <Text key={index} style={[isBullet ? styles.notAcceptedItem : styles.acceptedIntro, { color: themeColors.textSecondary }]}>
+                            {isBullet ? `• ${item.replace(/^-\s*/, '')}` : item}
+                          </Text>
+                        );
+                      })}
                     </>
                   )}
                 </ScrollView>
@@ -581,6 +591,11 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: '#27AE60',
     marginBottom: 12,
+  },
+  acceptedIntro: {
+    fontSize: 14,
+    marginBottom: 10,
+    lineHeight: 20,
   },
   acceptedItem: {
     fontSize: 14,
