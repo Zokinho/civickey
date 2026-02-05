@@ -19,7 +19,7 @@ export default function ScheduleScreen() {
   const [modalVisible, setModalVisible] = useState(false);
   const [searchVisible, setSearchVisible] = useState(false);
   const { language, t } = useLanguage();
-  const { zoneId, schedule, config, getZoneSchedule, getThemeColors, getUpcomingSpecialCollections } = useMunicipality();
+  const { zoneId, zones, schedule, config, getZoneSchedule, getThemeColors, getUpcomingSpecialCollections } = useMunicipality();
   const { colors: themeColors, isDark } = useTheme();
 
   // Get theme colors from municipality config
@@ -132,6 +132,11 @@ export default function ScheduleScreen() {
   };
 
   const getZoneLabel = () => {
+    const zone = zones?.find(z => z.id === zoneId);
+    if (zone) {
+      return language === 'fr' ? (zone.nameFr || zone.nameEn || zoneId) : (zone.nameEn || zone.nameFr || zoneId);
+    }
+    // Fallback for legacy 'east'/'west' zones
     return zoneId === 'east' ? t('eastSector') : t('westSector');
   };
 

@@ -34,7 +34,7 @@ export default function HomeScreen() {
   const { language, t } = useLanguage();
   const { announcements, refresh: refreshAnnouncements } = useAnnouncements();
   const { closures } = useRoadClosures();
-  const { zoneId, schedule, events, config, getZoneSchedule, getThemeColors, getUpcomingSpecialCollections } = useMunicipality();
+  const { zoneId, zones, schedule, events, config, getZoneSchedule, getThemeColors, getUpcomingSpecialCollections } = useMunicipality();
   const { colors: themeColors, isDark } = useTheme();
 
   // Get theme colors from municipality config
@@ -266,6 +266,11 @@ export default function HomeScreen() {
   };
 
   const getZoneLabel = () => {
+    const zone = zones?.find(z => z.id === zoneId);
+    if (zone) {
+      return language === 'fr' ? (zone.nameFr || zone.nameEn || zoneId) : (zone.nameEn || zone.nameFr || zoneId);
+    }
+    // Fallback for legacy 'east'/'west' zones
     return zoneId === 'east' ? t('eastSector') : t('westSector');
   };
 
