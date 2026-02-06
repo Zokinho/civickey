@@ -78,6 +78,30 @@ export const translations = {
       title: 'See it in action',
       subtitle: 'A clean, intuitive interface designed for everyone',
     },
+    // Website Builder
+    websiteBuilder: {
+      badge: 'For Municipalities',
+      title: 'A website for your city, powered by CivicKey',
+      subtitle: 'Give your residents a modern, professional website that automatically stays up-to-date with your collection schedules, events, and announcements.',
+      benefits: [
+        {
+          icon: '🎨',
+          title: 'Your Brand, Your Colors',
+          description: 'The app and website adapt to your municipality\'s color scheme for a seamless, branded experience.',
+        },
+        {
+          icon: '🔄',
+          title: 'Single Source of Truth',
+          description: 'Update once in the admin console — your app and website update automatically.',
+        },
+        {
+          icon: '⚡',
+          title: 'Zero Maintenance',
+          description: 'We handle hosting, security, and updates. You focus on your community.',
+        },
+      ],
+      cta: 'Request a Demo',
+    },
     // Contact
     contact: {
       title: 'Get in touch',
@@ -181,6 +205,30 @@ export const translations = {
     screenshots: {
       title: 'Voyez-le en action',
       subtitle: 'Une interface épurée et intuitive conçue pour tous',
+    },
+    // Website Builder
+    websiteBuilder: {
+      badge: 'Pour les municipalités',
+      title: 'Un site web pour votre ville, propulsé par CivicKey',
+      subtitle: 'Offrez à vos résidents un site web moderne et professionnel qui se met à jour automatiquement avec vos horaires de collecte, événements et annonces.',
+      benefits: [
+        {
+          icon: '🎨',
+          title: 'Votre marque, vos couleurs',
+          description: 'L\'application et le site web s\'adaptent aux couleurs de votre municipalité pour une expérience personnalisée.',
+        },
+        {
+          icon: '🔄',
+          title: 'Source unique de vérité',
+          description: 'Mettez à jour une fois dans la console admin — votre application et site web se mettent à jour automatiquement.',
+        },
+        {
+          icon: '⚡',
+          title: 'Zéro maintenance',
+          description: 'Nous gérons l\'hébergement, la sécurité et les mises à jour. Vous vous concentrez sur votre communauté.',
+        },
+      ],
+      cta: 'Demander une démo',
     },
     // Contact
     contact: {

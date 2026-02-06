@@ -5,6 +5,7 @@ import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import Features from './components/Features';
 import Screenshots from './components/Screenshots';
+import WebsiteBuilder from './components/WebsiteBuilder';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 import PrivacyPolicy from './pages/PrivacyPolicy';
@@ -32,6 +33,7 @@ function HomePage() {
         <Hero />
         <Features />
         <Screenshots />
+        <WebsiteBuilder />
         <Contact />
       </main>
       <Footer />
