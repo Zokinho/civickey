@@ -11,6 +11,12 @@ interface ZoneSelectorProps {
   onSelect: (zoneId: string) => void;
 }
 
+function getZoneName(zone: Zone, locale: Locale): string {
+  if (locale === 'fr' && zone.nameFr) return zone.nameFr;
+  if (locale === 'en' && zone.nameEn) return zone.nameEn;
+  return zone.nameEn || zone.nameFr || zone.name;
+}
+
 export default function ZoneSelector({ zones, locale, selectedZone, onSelect }: ZoneSelectorProps) {
   return (
     <div>
@@ -33,7 +39,7 @@ export default function ZoneSelector({ zones, locale, selectedZone, onSelect }: 
                 : undefined
             }
           >
-            {zone.name}
+            {getZoneName(zone, locale)}
           </button>
         ))}
       </div>

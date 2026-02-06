@@ -115,6 +115,8 @@ export interface FacilityHours {
 export interface Zone {
   id: string;
   name: string;
+  nameEn?: string;
+  nameFr?: string;
   color: string;
   description?: string;
 }
