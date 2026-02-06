@@ -2,16 +2,18 @@ import { useState } from 'react';
 import { useLanguage } from '../contexts/LanguageContext';
 import './Screenshots.css';
 
-// Add your screenshot filenames here
+// Screenshot configuration - add new screenshots here
 const screenshots = [
-  { src: '/screenshots/screen1.png', alt: 'Home Screen' },
-  { src: '/screenshots/screen2.png', alt: 'Schedule Screen' },
-  { src: '/screenshots/screen3.png', alt: 'Events Screen' },
-  { src: '/screenshots/screen4.png', alt: 'Settings Screen' },
+  { src: '/screenshots/screen1.png', alt: 'Home Screen', labelEn: 'Home', labelFr: 'Accueil' },
+  { src: '/screenshots/screen2.png', alt: 'Collection Schedule', labelEn: 'Schedule', labelFr: 'Collectes' },
+  { src: '/screenshots/screen3.png', alt: 'What Goes Where Search', labelEn: 'What Goes Where', labelFr: 'Où ça va?' },
+  { src: '/screenshots/screen4.png', alt: 'Facilities', labelEn: 'Facilities', labelFr: 'Installations' },
+  { src: '/screenshots/screen5.png', alt: 'Events', labelEn: 'Events', labelFr: 'Événements' },
+  { src: '/screenshots/screen6.png', alt: 'Dark Mode', labelEn: 'Dark Mode', labelFr: 'Mode sombre' },
 ];
 
 export default function Screenshots() {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const goToPrevious = () => {
@@ -47,6 +49,9 @@ export default function Screenshots() {
                   <div className="phone-frame">
                     <img src={screenshot.src} alt={screenshot.alt} />
                   </div>
+                  <p className="screenshot-label">
+                    {language === 'fr' ? screenshot.labelFr : screenshot.labelEn}
+                  </p>
                 </div>
               ))}
             </div>

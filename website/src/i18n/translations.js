@@ -32,14 +32,29 @@ export const translations = {
           icon: '🗓️',
         },
         {
-          title: 'Road Closures & Alerts',
-          description: 'Stay informed about construction, road blockages, and detours in your area with real-time updates.',
-          icon: '🚧',
+          title: 'What Goes Where',
+          description: 'Not sure which bin? Search any item and instantly find out where it goes — recycling, compost, garbage, or ecocentre.',
+          icon: '🔍',
+        },
+        {
+          title: 'Local Facilities',
+          description: 'Find municipal facilities like ecocentres and drop-off points with hours, addresses, and contact info.',
+          icon: '🏛️',
         },
         {
           title: 'Community Events',
           description: 'Discover local events, workshops, and activities happening in your neighborhood.',
           icon: '📣',
+        },
+        {
+          title: 'Road Closures & Alerts',
+          description: 'Stay informed about construction, road blockages, and detours in your area with real-time updates.',
+          icon: '🚧',
+        },
+        {
+          title: 'Dark Mode',
+          description: 'Easy on the eyes. Switch between light and dark themes, or let the app follow your system settings.',
+          icon: '🌙',
         },
         {
           title: 'Instant Notifications',
@@ -121,14 +136,29 @@ export const translations = {
           icon: '🗓️',
         },
         {
-          title: 'Fermetures de routes',
-          description: 'Restez informé des travaux, blocages routiers et détours dans votre secteur avec des mises à jour en temps réel.',
-          icon: '🚧',
+          title: 'Où ça va?',
+          description: 'Pas certain du bon bac? Recherchez n\'importe quel article et découvrez instantanément où il va — recyclage, compost, ordures ou écocentre.',
+          icon: '🔍',
+        },
+        {
+          title: 'Installations locales',
+          description: 'Trouvez les installations municipales comme les écocentres avec horaires, adresses et coordonnées.',
+          icon: '🏛️',
         },
         {
           title: 'Événements communautaires',
           description: 'Découvrez les événements locaux, ateliers et activités dans votre quartier.',
           icon: '📣',
+        },
+        {
+          title: 'Fermetures de routes',
+          description: 'Restez informé des travaux, blocages routiers et détours dans votre secteur avec des mises à jour en temps réel.',
+          icon: '🚧',
+        },
+        {
+          title: 'Mode sombre',
+          description: 'Agréable pour les yeux. Basculez entre les thèmes clair et sombre, ou laissez l\'application suivre vos paramètres système.',
+          icon: '🌙',
         },
         {
           title: 'Notifications instantanées',
