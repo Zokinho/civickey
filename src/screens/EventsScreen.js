@@ -58,7 +58,8 @@ export default function EventsScreen() {
   };
 
   const openCityEvents = () => {
-    Linking.openURL('https://www.ville.saint-lazare.qc.ca/en/leisure-sports-and-culture/activities');
+    const url = config?.contact?.website;
+    if (url) Linking.openURL(url);
   };
 
   // Sort events by date and filter to upcoming only
@@ -115,7 +116,7 @@ export default function EventsScreen() {
                   <Text style={[styles.metaText, { color: themeColors.textSecondary }]}>🕐 {formatTime(event.time, event.endTime)}</Text>
                 </View>
                 <View style={styles.eventMeta}>
-                  <Text style={[styles.metaText, { color: themeColors.textSecondary }]}>📍 {event.location}</Text>
+                  <Text style={[styles.metaText, { color: themeColors.textSecondary }]}>📍 {getLocalizedText(event.location, '')}</Text>
                 </View>
                 {event.ageGroup && (
                   <View style={styles.eventMeta}>

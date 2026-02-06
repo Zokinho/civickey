@@ -94,7 +94,7 @@ function TabNavigator({ onReset }) {
 }
 
 function AppContent() {
-  const { municipalityId, zoneId, loading: municipalityLoading, clearSelection } = useMunicipality();
+  const { municipalityId, zoneId, zones, loading: municipalityLoading, clearSelection, selectZone } = useMunicipality();
   const { isDark, colors: themeColors } = useTheme();
   const [isLoading, setIsLoading] = useState(true);
   const [hasZone, setHasZone] = useState(false);
@@ -132,6 +132,21 @@ function AppContent() {
   useEffect(() => {
     setHasMunicipality(!!municipalityId);
   }, [municipalityId]);
+
+  // Auto-select zone if there's only one zone for the municipality
+  useEffect(() => {
+    const autoSelectSingleZone = async () => {
+      if (hasMunicipality && !hasZone && zones && zones.length === 1) {
+        try {
+          await selectZone(zones[0].id);
+          setHasZone(true);
+        } catch (e) {
+          console.error('Failed to auto-select zone', e);
+        }
+      }
+    };
+    autoSelectSingleZone();
+  }, [hasMunicipality, hasZone, zones, selectZone]);
 
   const handleProvinceSelect = (province) => {
     setSelectedProvince(province);

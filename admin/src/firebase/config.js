@@ -19,6 +19,16 @@ export const db = getFirestore(app);
 export const auth = getAuth(app);
 export const storage = getStorage(app);
 
+// Expose for console scripting
+if (typeof window !== 'undefined') {
+  window.__FIREBASE_DB__ = db;
+  window.__FIREBASE_AUTH__ = auth;
+  // Also expose Firestore functions for scripting
+  import('firebase/firestore').then(firestore => {
+    window.__FIRESTORE__ = firestore;
+  });
+}
+
 // Secondary app for creating users without affecting current auth state
 const secondaryApp = initializeApp(firebaseConfig, 'secondary');
 export const secondaryAuth = getAuth(secondaryApp);

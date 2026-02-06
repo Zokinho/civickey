@@ -124,11 +124,13 @@ export default function ScheduleScreen() {
   };
 
   const openCityWebsite = () => {
-    Linking.openURL('https://www.ville.saint-lazare.qc.ca/fr/services-aux-citoyens/collectes-des-matieres-residuelles');
+    const url = config?.contact?.website;
+    if (url) Linking.openURL(url);
   };
 
   const openSectorMap = () => {
-    Linking.openURL('https://contenu.maruche.ca/Fichiers/228290ed-49b5-4dff-af87-e59de42eefd0/Sites/22d38d6f-ef7d-ec11-81d5-00155d000708/Images/Cartes/CarteCollecteParSecteur.pdf');
+    const url = schedule?.zoneMapUrl;
+    if (url) Linking.openURL(url);
   };
 
   const getZoneLabel = () => {
@@ -191,9 +193,13 @@ export default function ScheduleScreen() {
               <View style={styles.cardContent}>
                 <View style={styles.cardHeader}>
                   <Text style={[styles.cardTitle, { color: themeColors.text }]}>{getLocalizedText(type.name, type.id)}</Text>
-                  <Text style={[styles.binName, { color: themeColors.textSecondary, backgroundColor: themeColors.background }]}>{getLocalizedText(type.binName, '')}</Text>
+                  {getLocalizedText(type.binName, '') ? (
+                    <Text style={[styles.binName, { color: themeColors.textSecondary, backgroundColor: themeColors.background }]}>{getLocalizedText(type.binName, '')}</Text>
+                  ) : null}
                 </View>
-                <Text style={[styles.cardSubtitle, { color: themeColors.textSecondary }]}>{type.binSize}</Text>
+                {type.binSize ? (
+                  <Text style={[styles.cardSubtitle, { color: themeColors.textSecondary }]}>{type.binSize}</Text>
+                ) : null}
                 <View style={styles.scheduleInfo}>
                   <Text style={[styles.dayLabel, { color: themeColors.text }]}>{DAYS[language][effectiveDayOfWeek]}s • {frequencyText}</Text>
                   <Text style={[styles.nextDate, { color: colors.primary }]}>{t('next')}: {getNextDate(effectiveDayOfWeek, typeSchedule.frequency, effectiveStartDate)}</Text>
@@ -273,7 +279,7 @@ export default function ScheduleScreen() {
           <Text style={[styles.linkButtonText, { color: colors.primary }]}>{t('viewOnCityWebsite')} →</Text>
         </TouchableOpacity>
 
-        <Text style={[styles.source, { color: themeColors.textMuted }]}>{t('source')}: ville.saint-lazare.qc.ca</Text>
+        <Text style={[styles.source, { color: themeColors.textMuted }]}>{t('source')}: {config?.contact?.website?.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '') || t('municipalityWebsite')}</Text>
       </ScrollView>
 
       <WasteSearchOverlay

@@ -387,7 +387,9 @@ export default function HomeScreen() {
               >
                 <View style={styles.cardContent}>
                   <Text style={[styles.cardTitle, { color: themeColors.text }]}>{getLocalizedText(type.name, type.id)}</Text>
-                  <Text style={[styles.cardDay, { color: themeColors.textSecondary }]}>{getLocalizedText(type.binName, '')}</Text>
+                  {getLocalizedText(type.binName, '') ? (
+                    <Text style={[styles.cardDay, { color: themeColors.textSecondary }]}>{getLocalizedText(type.binName, '')}</Text>
+                  ) : null}
                 </View>
                 <View style={[styles.badge, { backgroundColor: type.color }]}>
                   <Text style={styles.badgeText}>
@@ -497,18 +499,28 @@ export default function HomeScreen() {
                   {(getLocalizedText(selectedType.accepted, []) || []).length > 0 && (
                     <>
                       <Text style={styles.sectionLabel}>✓ {t('accepted')}</Text>
-                      {(getLocalizedText(selectedType.accepted, []) || []).map((item, index) => (
-                        <Text key={index} style={[styles.acceptedItem, { color: themeColors.text }]}>• {item}</Text>
-                      ))}
+                      {(getLocalizedText(selectedType.accepted, []) || []).map((item, index) => {
+                        const isBullet = item.startsWith('- ') || item.startsWith('-');
+                        return (
+                          <Text key={index} style={[isBullet ? styles.acceptedItem : styles.acceptedIntro, { color: themeColors.text }]}>
+                            {isBullet ? `• ${item.replace(/^-\s*/, '')}` : item}
+                          </Text>
+                        );
+                      })}
                     </>
                   )}
 
                   {(getLocalizedText(selectedType.notAccepted, []) || []).length > 0 && (
                     <>
                       <Text style={[styles.sectionLabel, { color: themeColors.error, marginTop: 20 }]}>✗ {t('notAccepted')}</Text>
-                      {(getLocalizedText(selectedType.notAccepted, []) || []).map((item, index) => (
-                        <Text key={index} style={[styles.notAcceptedItem, { color: themeColors.textSecondary }]}>• {item}</Text>
-                      ))}
+                      {(getLocalizedText(selectedType.notAccepted, []) || []).map((item, index) => {
+                        const isBullet = item.startsWith('- ') || item.startsWith('-');
+                        return (
+                          <Text key={index} style={[isBullet ? styles.notAcceptedItem : styles.acceptedIntro, { color: themeColors.textSecondary }]}>
+                            {isBullet ? `• ${item.replace(/^-\s*/, '')}` : item}
+                          </Text>
+                        );
+                      })}
                     </>
                   )}
                 </ScrollView>
@@ -865,6 +877,12 @@ const styles = StyleSheet.create({
     color: '#1A1A2E',
     marginBottom: 6,
     paddingLeft: 8,
+  },
+  acceptedIntro: {
+    fontSize: 14,
+    color: '#1A1A2E',
+    marginBottom: 8,
+    lineHeight: 20,
   },
   notAcceptedItem: {
     fontSize: 14,

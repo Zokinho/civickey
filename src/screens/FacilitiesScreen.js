@@ -212,7 +212,7 @@ export default function FacilitiesScreen() {
                   )}
                 </View>
 
-                <ScrollView style={styles.modalBody}>
+                <ScrollView style={styles.modalBody} contentContainerStyle={styles.modalBodyContent}>
                   {/* Weekly Hours */}
                   <Text style={[styles.sectionLabel, { color: themeColors.text }]}>{t('weeklyHours')}</Text>
                   <View style={[styles.hoursTable, { backgroundColor: isDark ? themeColors.card : '#F8F8F8' }]}>
@@ -438,8 +438,11 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   modalBody: {
-    padding: 20,
-    maxHeight: 400,
+    paddingHorizontal: 20,
+  },
+  modalBodyContent: {
+    paddingTop: 20,
+    paddingBottom: 20,
   },
   sectionLabel: {
     fontSize: 16,
