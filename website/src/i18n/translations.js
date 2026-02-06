@@ -10,6 +10,7 @@ export const translations = {
     hero: {
       tagline: 'Your city, in your pocket',
       subtitle: 'Stay connected to your community. Get collection schedules, road alerts, local events, and important updates — all in one simple app.',
+      badge: 'Ready in 48 hours',
       cta: 'Get Started',
       comingSoon: 'Coming Soon',
       appStore: {
@@ -85,6 +86,11 @@ export const translations = {
       subtitle: 'Give your residents a modern, professional website that automatically stays up-to-date with your collection schedules, events, and announcements.',
       benefits: [
         {
+          icon: '⏱️',
+          title: 'Ready in 48 Hours',
+          description: 'From signup to launch in just two days. Your residents can start using it right away.',
+        },
+        {
           icon: '🎨',
           title: 'Your Brand, Your Colors',
           description: 'The app and website adapt to your municipality\'s color scheme for a seamless, branded experience.',
@@ -138,6 +144,7 @@ export const translations = {
     hero: {
       tagline: 'Votre ville, dans votre poche',
       subtitle: 'Restez connecté à votre communauté. Consultez les horaires de collecte, les alertes routières, les événements locaux et les mises à jour — le tout dans une seule application.',
+      badge: 'Prêt en 48 heures',
       cta: 'Commencer',
       comingSoon: 'Bientôt disponible',
       appStore: {
@@ -212,6 +219,11 @@ export const translations = {
       title: 'Un site web pour votre ville, propulsé par CivicKey',
       subtitle: 'Offrez à vos résidents un site web moderne et professionnel qui se met à jour automatiquement avec vos horaires de collecte, événements et annonces.',
       benefits: [
+        {
+          icon: '⏱️',
+          title: 'Prêt en 48 heures',
+          description: 'De l\'inscription au lancement en seulement deux jours. Vos résidents peuvent commencer à l\'utiliser immédiatement.',
+        },
         {
           icon: '🎨',
           title: 'Votre marque, vos couleurs',

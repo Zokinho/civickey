@@ -15,6 +15,18 @@
   align-items: center;
 }
 
+.hero-badge {
+  display: inline-block;
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  padding: 8px 16px;
+  border-radius: var(--radius-full);
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin-bottom: var(--spacing-md);
+  backdrop-filter: blur(4px);
+}
+
 .hero-content h1 {
   font-size: 3.5rem;
   font-weight: 700;

@@ -8,6 +8,7 @@ export default function Hero() {
     <section className="hero">
       <div className="container hero-container">
         <div className="hero-content">
+          <span className="hero-badge">{t.hero.badge}</span>
           <h1>{t.hero.tagline}</h1>
           <p>{t.hero.subtitle}</p>
 
