@@ -210,9 +210,11 @@ export default function ScheduleScreen() {
           );
         })}
 
-        <TouchableOpacity style={[styles.mapButton, { backgroundColor: colors.primary }]} onPress={openSectorMap}>
-          <Text style={styles.mapButtonText}>{t('viewSectorMap')}</Text>
-        </TouchableOpacity>
+{zones?.length > 1 && schedule?.zoneMapUrl && (
+          <TouchableOpacity style={[styles.mapButton, { backgroundColor: colors.primary }]} onPress={openSectorMap}>
+            <Text style={styles.mapButtonText}>{t('viewSectorMap')}</Text>
+          </TouchableOpacity>
+        )}
 
         {/* Special Collections Section */}
         {upcomingSpecialCollections.length > 0 && (

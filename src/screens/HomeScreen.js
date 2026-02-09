@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, SafeAreaView, TouchableOpacity, Alert, ScrollView, Modal, Image } from 'react-native';
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -9,6 +9,7 @@ import { useAnnouncements } from '../hooks/useAnnouncements';
 import { useRoadClosures } from '../hooks/useRoadClosures';
 import { useMunicipality } from '../contexts/MunicipalityContext';
 import { useTheme } from '../contexts/ThemeContext';
+import { useAppRating } from '../hooks/useAppRating';
 import OfflineBanner from '../components/OfflineBanner';
 
 const NOTIFICATIONS_SETUP_KEY = '@civickey_notifications_setup';
@@ -36,6 +37,12 @@ export default function HomeScreen() {
   const { closures } = useRoadClosures();
   const { zoneId, zones, schedule, events, config, getZoneSchedule, getThemeColors, getUpcomingSpecialCollections } = useMunicipality();
   const { colors: themeColors, isDark } = useTheme();
+  const { requestReview } = useAppRating();
+
+  // Check if we should prompt for app review
+  useEffect(() => {
+    requestReview();
+  }, []);
 
   // Get theme colors from municipality config
   const colors = getThemeColors();
