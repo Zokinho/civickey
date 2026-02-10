@@ -3,7 +3,7 @@ import { useState, useCallback, useEffect } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import { requestPermissions, scheduleCollectionReminder, sendTestNotification } from '../utils/notifications';
+import { requestPermissions, scheduleCollectionReminder } from '../utils/notifications';
 import { useLanguage } from '../hooks/useLanguage';
 import { useAnnouncements } from '../hooks/useAnnouncements';
 import { useRoadClosures } from '../hooks/useRoadClosures';
@@ -102,21 +102,6 @@ export default function HomeScreen() {
       t('notificationsEnabled'),
       t('notificationsEnabledMessage')
     );
-  };
-
-  const handleTestNotification = async () => {
-    const result = await sendTestNotification();
-    if (result.success) {
-      Alert.alert(
-        'Scheduled!',
-        `Notification arriving in 30 seconds. Minimize the app now.`
-      );
-    } else {
-      Alert.alert(
-        'Failed',
-        `Reason: ${result.reason}`
-      );
-    }
   };
 
   const getNextCollectionDate = (dayOfWeek, frequency, startDate) => {
@@ -474,10 +459,6 @@ export default function HomeScreen() {
             <Text style={[styles.statusText, { color: colors.primary }]}>{t('remindersEnabled')}</Text>
           </View>
         )}
-
-        <TouchableOpacity style={[styles.testButton, { backgroundColor: colors.primary }]} onPress={handleTestNotification}>
-          <Text style={styles.testButtonText}>🔔 {t('testNotification')}</Text>
-        </TouchableOpacity>
       </ScrollView>
 
       {/* Details Modal */}
@@ -817,19 +798,6 @@ const styles = StyleSheet.create({
     color: '#0D5C63',
     fontSize: 14,
     textAlign: 'center',
-  },
-  testButton: {
-    backgroundColor: '#0D5C63',
-    padding: 14,
-    borderRadius: 12,
-    alignItems: 'center',
-    marginTop: 12,
-    marginBottom: 32,
-  },
-  testButtonText: {
-    color: '#FFFFFF',
-    fontSize: 16,
-    fontWeight: '600',
   },
   // Modal styles
   modalOverlay: {

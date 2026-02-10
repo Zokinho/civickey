@@ -2,7 +2,7 @@ import { View, Text, StyleSheet, SafeAreaView, TouchableOpacity, Alert, Modal, S
 import { useEffect, useState } from 'react';
 
 import { useLanguage } from '../hooks/useLanguage';
-import { getNotificationPrefs, setNotificationPrefs } from '../utils/notifications';
+import { getNotificationPrefs, setNotificationPrefs, sendTestNotification } from '../utils/notifications';
 import { useMunicipality } from '../contexts/MunicipalityContext';
 import { useTheme } from '../contexts/ThemeContext';
 
@@ -110,6 +110,23 @@ export default function SettingsScreen({ navigation, onReset }) {
     return `${displayHour}:00 ${suffix}`;
   };
 
+  const handleTestNotification = async () => {
+    const result = await sendTestNotification();
+    if (result.success) {
+      Alert.alert(
+        language === 'fr' ? 'Programmé!' : 'Scheduled!',
+        language === 'fr'
+          ? 'Notification dans 30 secondes. Minimisez l\'app maintenant.'
+          : 'Notification arriving in 30 seconds. Minimize the app now.'
+      );
+    } else {
+      Alert.alert(
+        language === 'fr' ? 'Échec' : 'Failed',
+        `${language === 'fr' ? 'Raison' : 'Reason'}: ${result.reason}`
+      );
+    }
+  };
+
   const handleClearData = () => {
     Alert.alert(
       t('clearAllData'),
@@ -192,6 +209,11 @@ export default function SettingsScreen({ navigation, onReset }) {
           <TouchableOpacity style={[styles.settingRow, { backgroundColor: themeColors.card }]} onPress={handleChangeReminderTime}>
             <Text style={[styles.settingLabel, { color: themeColors.text }]}>{t('reminderTime')}</Text>
             <Text style={[styles.settingValue, { color: themeColors.textSecondary }]}>{formatTime(reminderTime.hour)} →</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.testLink} onPress={handleTestNotification}>
+            <Text style={[styles.testLinkText, { color: colors.primary }]}>
+              {language === 'fr' ? 'Tester les notifications' : 'Test notifications'}
+            </Text>
           </TouchableOpacity>
         </View>
 
@@ -482,6 +504,14 @@ const styles = StyleSheet.create({
   settingValue: {
     fontSize: 16,
     color: '#5A6C7D',
+  },
+  testLink: {
+    paddingVertical: 8,
+    paddingHorizontal: 4,
+  },
+  testLinkText: {
+    fontSize: 14,
+    textDecorationLine: 'underline',
   },
   refreshButton: {
     backgroundColor: '#0D5C63',
