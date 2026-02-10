@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { collection, getDocs, query, where } from 'firebase/firestore';
 import { db } from '../firebase/config';
 import { useMunicipality } from '../contexts/MunicipalityContext';
+import { useAppFocusRefresh } from './useAppFocusRefresh';
 
 export function useAnnouncements() {
   const { municipalityId } = useMunicipality();
@@ -52,6 +53,9 @@ export function useAnnouncements() {
   useEffect(() => {
     fetchAnnouncements();
   }, [fetchAnnouncements]);
+
+  // Refresh when app returns to foreground after 15+ minutes
+  useAppFocusRefresh(fetchAnnouncements);
 
   return { announcements, loading, error, refresh: fetchAnnouncements };
 }

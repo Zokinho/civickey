@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { collection, getDocs, query, where, orderBy } from 'firebase/firestore';
 import { db } from '../firebase/config';
 import { useMunicipality } from '../contexts/MunicipalityContext';
+import { useAppFocusRefresh } from './useAppFocusRefresh';
 
 export function useRoadClosures() {
   const { municipalityId } = useMunicipality();
@@ -50,6 +51,9 @@ export function useRoadClosures() {
   useEffect(() => {
     fetchClosures();
   }, [fetchClosures]);
+
+  // Refresh when app returns to foreground after 15+ minutes
+  useAppFocusRefresh(fetchClosures);
 
   return { closures, loading, error, refresh: fetchClosures };
 }

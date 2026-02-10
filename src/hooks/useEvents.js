@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { collection, getDocs, query, orderBy } from 'firebase/firestore';
 import { db } from '../firebase/config';
 import { useMunicipality } from '../contexts/MunicipalityContext';
+import { useAppFocusRefresh } from './useAppFocusRefresh';
 import localEvents from '../data/events.json';
 
 export function useEvents() {
@@ -46,6 +47,9 @@ export function useEvents() {
   useEffect(() => {
     fetchEvents();
   }, [fetchEvents]);
+
+  // Refresh when app returns to foreground after 15+ minutes
+  useAppFocusRefresh(fetchEvents);
 
   return { events, loading, error, refresh: fetchEvents };
 }

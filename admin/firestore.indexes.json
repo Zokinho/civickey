@@ -9,6 +9,14 @@
       ]
     },
     {
+      "collectionGroup": "roadClosures",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "status", "order": "ASCENDING" },
+        { "fieldPath": "startDate", "order": "ASCENDING" }
+      ]
+    },
+    {
       "collectionGroup": "pages",
       "queryScope": "COLLECTION",
       "fields": [

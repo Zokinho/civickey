@@ -70,6 +70,11 @@ service cloud.firestore {
         allow create, update, delete: if hasRole(municipalityId, 'editor');
       }
 
+      match /roadClosures/{closureId} {
+        allow read: if true;
+        allow create, update, delete: if hasRole(municipalityId, 'editor');
+      }
+
       match /pages/{pageId} {
         allow read: if true;
         allow create, update, delete: if hasRole(municipalityId, 'editor');
