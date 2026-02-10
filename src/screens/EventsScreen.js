@@ -77,7 +77,7 @@ export default function EventsScreen() {
 
       <OfflineBanner />
 
-      <ScrollView style={styles.content}>
+      <ScrollView style={styles.content} contentContainerStyle={styles.contentContainer}>
         {sortedEvents.length === 0 ? (
           <View style={styles.emptyState}>
             <Text style={[styles.emptyText, { color: themeColors.textSecondary }]}>{t('noUpcomingEvents')}</Text>
@@ -166,6 +166,9 @@ const styles = StyleSheet.create({
   content: {
     flex: 1,
     padding: 20,
+  },
+  contentContainer: {
+    paddingBottom: 70,
   },
   emptyState: {
     padding: 40,

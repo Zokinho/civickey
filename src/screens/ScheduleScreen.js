@@ -158,7 +158,7 @@ export default function ScheduleScreen() {
         <WasteSearchBar onPress={() => setSearchVisible(true)} />
       )}
 
-      <ScrollView style={styles.content}>
+      <ScrollView style={styles.content} contentContainerStyle={styles.contentContainer}>
         <Text style={[styles.hint, { color: themeColors.textSecondary }]}>{t('tapForDetails')}</Text>
 
         {zoneSchedule && collectionTypes.map((type) => {
@@ -267,7 +267,7 @@ export default function ScheduleScreen() {
           </>
         )}
 
-        {guidelines.timing && guidelines.position && (
+        {getLocalizedText(guidelines.timing, '') && (getLocalizedText(guidelines.position, []) || []).length > 0 && (
           <View style={[styles.infoBox, { backgroundColor: isDark ? `${colors.primary}30` : `${colors.primary}15` }]}>
             <Text style={[styles.infoTitle, { color: colors.primary }]}>{t('binPlacement')}</Text>
             <Text style={[styles.infoText, { color: themeColors.text }]}>{getLocalizedText(guidelines.timing, '')}</Text>
@@ -381,6 +381,9 @@ const styles = StyleSheet.create({
   content: {
     flex: 1,
     padding: 20,
+  },
+  contentContainer: {
+    paddingBottom: 70,
   },
   hint: {
     fontSize: 13,

@@ -296,7 +296,7 @@ export default function HomeScreen() {
 
       <OfflineBanner />
 
-      <ScrollView style={styles.content}>
+      <ScrollView style={styles.content} contentContainerStyle={styles.contentContainer}>
         {!notificationsEnabled && (
           <TouchableOpacity style={styles.notifBanner} onPress={setupNotifications}>
             <Text style={styles.notifBannerText}>{t('enableReminders')}</Text>
@@ -626,6 +626,9 @@ const styles = StyleSheet.create({
   content: {
     flex: 1,
     padding: 20,
+  },
+  contentContainer: {
+    paddingBottom: 70,
   },
   notifBanner: {
     backgroundColor: '#E07A5F',

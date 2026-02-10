@@ -140,7 +140,7 @@ export default function FacilitiesScreen() {
 
       <OfflineBanner />
 
-      <ScrollView style={styles.content}>
+      <ScrollView style={styles.content} contentContainerStyle={styles.contentContainer}>
         {facilities.length === 0 ? (
           <View style={styles.emptyState}>
             <Text style={[styles.emptyText, { color: themeColors.textSecondary }]}>{t('noFacilities')}</Text>
@@ -322,6 +322,9 @@ const styles = StyleSheet.create({
   content: {
     flex: 1,
     padding: 20,
+  },
+  contentContainer: {
+    paddingBottom: 70,
   },
   emptyState: {
     padding: 40,
