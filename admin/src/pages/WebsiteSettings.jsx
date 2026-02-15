@@ -31,6 +31,7 @@ function WebsiteSettings() {
   const [pages, setPages] = useState([]);
   const [domainStatus, setDomainStatus] = useState(null);
   const [verifying, setVerifying] = useState(false);
+  const [savedDomain, setSavedDomain] = useState('');
 
   useEffect(() => {
     if (municipalityConfig?.website) {
@@ -52,6 +53,7 @@ function WebsiteSettings() {
       });
       setNavigation(w.navigation || []);
       setDomainStatus(w.domainVerified ? 'verified' : null);
+      setSavedDomain(w.customDomain || '');
     }
   }, [municipalityConfig]);
 
@@ -78,6 +80,37 @@ function WebsiteSettings() {
   const validateEmail = (email) => {
     if (!email) return true;
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  };
+
+  const syncVercelDomain = async (oldDomain, newDomain) => {
+    const apiUrl = import.meta.env.VITE_DOMAINS_API_URL;
+    const apiSecret = import.meta.env.VITE_DOMAINS_API_SECRET;
+    if (!apiUrl || !apiSecret) return;
+
+    const headers = {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${apiSecret}`,
+    };
+
+    if (oldDomain && oldDomain !== newDomain) {
+      try {
+        await fetch(`${apiUrl}/api/domains`, { method: 'POST', headers, body: JSON.stringify({ domain: oldDomain, action: 'remove' }) });
+      } catch (err) {
+        console.error('Failed to remove old domain from Vercel:', err);
+      }
+    }
+
+    if (newDomain) {
+      try {
+        const resp = await fetch(`${apiUrl}/api/domains`, { method: 'POST', headers, body: JSON.stringify({ domain: newDomain, action: 'add' }) });
+        const data = await resp.json();
+        if (!resp.ok) {
+          console.error('Failed to add domain to Vercel:', data.error);
+        }
+      } catch (err) {
+        console.error('Failed to add domain to Vercel:', err);
+      }
+    }
   };
 
   const handleSave = async () => {
@@ -141,6 +174,13 @@ function WebsiteSettings() {
       };
 
       await updateDoc(doc(db, 'municipalities', municipality), websiteData);
+
+      const newDomain = form.customDomain.trim();
+      if (newDomain !== savedDomain) {
+        await syncVercelDomain(savedDomain, newDomain);
+        setSavedDomain(newDomain);
+      }
+
       alert('Website settings saved successfully!');
     } catch (error) {
       alert('Error saving settings: ' + error.message);
