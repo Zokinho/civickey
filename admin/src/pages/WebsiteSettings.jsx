@@ -34,27 +34,25 @@ function WebsiteSettings() {
   const [savedDomain, setSavedDomain] = useState('');
 
   useEffect(() => {
-    if (municipalityConfig?.website) {
-      const w = municipalityConfig.website;
-      setForm({
-        enabled: w.enabled || false,
-        heroTaglineEn: w.heroTagline?.en || '',
-        heroTaglineFr: w.heroTagline?.fr || '',
-        heroImage: w.heroImage || '',
-        heroImagePosition: w.heroImagePosition || '50% 50%',
-        address: w.footer?.address || '',
-        phone: w.footer?.phone || '',
-        email: w.footer?.email || '',
-        facebook: w.footer?.facebook || '',
-        twitter: w.footer?.twitter || '',
-        instagram: w.footer?.instagram || '',
-        youtube: w.footer?.youtube || '',
-        customDomain: w.customDomain || '',
-      });
-      setNavigation(w.navigation || []);
-      setDomainStatus(w.domainVerified ? 'verified' : null);
-      setSavedDomain(w.customDomain || '');
-    }
+    const w = municipalityConfig?.website;
+    setForm({
+      enabled: w?.enabled || false,
+      heroTaglineEn: w?.heroTagline?.en || '',
+      heroTaglineFr: w?.heroTagline?.fr || '',
+      heroImage: w?.heroImage || '',
+      heroImagePosition: w?.heroImagePosition || '50% 50%',
+      address: w?.footer?.address || '',
+      phone: w?.footer?.phone || '',
+      email: w?.footer?.email || '',
+      facebook: w?.footer?.facebook || '',
+      twitter: w?.footer?.twitter || '',
+      instagram: w?.footer?.instagram || '',
+      youtube: w?.footer?.youtube || '',
+      customDomain: w?.customDomain || '',
+    });
+    setNavigation(w?.navigation || []);
+    setDomainStatus(w?.domainVerified ? 'verified' : null);
+    setSavedDomain(w?.customDomain || '');
   }, [municipalityConfig]);
 
   useEffect(() => {
