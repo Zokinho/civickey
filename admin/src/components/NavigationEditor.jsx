@@ -28,6 +28,139 @@ function validateUrl(url) {
   try { new URL(url); return true; } catch { return false; }
 }
 
+function NavPreview({ items, pages, defaultNav }) {
+  const [previewLang, setPreviewLang] = useState('en');
+  const [openDropdown, setOpenDropdown] = useState(null);
+
+  const displayItems = items.length > 0 ? items : defaultNav;
+
+  const getLabel = (item) => {
+    const label = previewLang === 'fr' ? item.label?.fr : item.label?.en;
+    return label || item.label?.en || item.label?.fr || '(untitled)';
+  };
+
+  const resolveHref = (item) => {
+    if (item.linkType === 'external') return item.externalUrl || '#';
+    if (item.linkType === 'page') {
+      const page = pages.find((p) => p.slug === item.pageSlug);
+      return page ? `/${item.pageSlug}` : '#';
+    }
+    const bp = BUILTIN_PAGES.find((p) => p.id === item.builtinPage);
+    return bp ? `/${bp.id}` : '#';
+  };
+
+  return (
+    <div style={{ marginBottom: '20px' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+        <span style={{ fontSize: '0.75rem', fontWeight: '600', color: '#6b7280', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Preview</span>
+        <div style={{ display: 'flex', gap: '4px' }}>
+          <button
+            type="button"
+            onClick={() => setPreviewLang('en')}
+            style={{
+              padding: '2px 10px', fontSize: '0.75rem', fontWeight: '600', borderRadius: '4px', border: '1px solid #d1d5db', cursor: 'pointer',
+              background: previewLang === 'en' ? '#1f2937' : '#fff',
+              color: previewLang === 'en' ? '#fff' : '#374151',
+            }}
+          >
+            EN
+          </button>
+          <button
+            type="button"
+            onClick={() => setPreviewLang('fr')}
+            style={{
+              padding: '2px 10px', fontSize: '0.75rem', fontWeight: '600', borderRadius: '4px', border: '1px solid #d1d5db', cursor: 'pointer',
+              background: previewLang === 'fr' ? '#1f2937' : '#fff',
+              color: previewLang === 'fr' ? '#fff' : '#374151',
+            }}
+          >
+            FR
+          </button>
+        </div>
+      </div>
+      <div
+        style={{
+          display: 'flex', alignItems: 'center', gap: '2px', padding: '0 16px', height: '48px',
+          background: '#fff', border: '1px solid #e5e7eb', borderRadius: '8px',
+          boxShadow: '0 1px 2px rgba(0,0,0,0.05)', overflow: 'visible', position: 'relative',
+        }}
+      >
+        {displayItems.map((item, index) => {
+          const isDropdown = item.type === 'dropdown';
+          const label = getLabel(item);
+
+          if (isDropdown) {
+            const children = item.children || [];
+            return (
+              <div
+                key={item.id || index}
+                style={{ position: 'relative' }}
+                onMouseEnter={() => setOpenDropdown(index)}
+                onMouseLeave={() => setOpenDropdown(null)}
+              >
+                <span
+                  style={{
+                    display: 'flex', alignItems: 'center', gap: '4px',
+                    padding: '6px 12px', fontSize: '0.875rem', fontWeight: '500', color: '#374151',
+                    borderRadius: '6px', cursor: 'default', whiteSpace: 'nowrap',
+                    background: openDropdown === index ? '#f3f4f6' : 'transparent',
+                  }}
+                >
+                  {label}
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M19 9l-7 7-7-7" /></svg>
+                </span>
+                {openDropdown === index && children.length > 0 && (
+                  <div
+                    style={{
+                      position: 'absolute', left: 0, top: '100%', marginTop: '4px',
+                      minWidth: '180px', background: '#fff', borderRadius: '8px',
+                      border: '1px solid #e5e7eb', boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+                      zIndex: 50, padding: '4px 0',
+                    }}
+                  >
+                    {children.map((child, ci) => (
+                      <span
+                        key={child.id || ci}
+                        style={{
+                          display: 'block', padding: '8px 16px', fontSize: '0.875rem',
+                          color: '#374151', cursor: 'default', whiteSpace: 'nowrap',
+                        }}
+                        onMouseEnter={(e) => { e.currentTarget.style.background = '#f9fafb'; }}
+                        onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; }}
+                      >
+                        {getLabel(child)}
+                      </span>
+                    ))}
+                  </div>
+                )}
+              </div>
+            );
+          }
+
+          return (
+            <span
+              key={item.id || index}
+              style={{
+                padding: '6px 12px', fontSize: '0.875rem', fontWeight: '500', color: '#374151',
+                borderRadius: '6px', cursor: 'default', whiteSpace: 'nowrap',
+              }}
+              onMouseEnter={(e) => { e.currentTarget.style.background = '#f3f4f6'; }}
+              onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; }}
+            >
+              {label}
+            </span>
+          );
+        })}
+      </div>
+      {items.length === 0 && (
+        <p style={{ fontSize: '0.75rem', color: '#9ca3af', marginTop: '6px', fontStyle: 'italic' }}>
+          Showing default menu. Add items below to customize.
+        </p>
+      )}
+    </div>
+  );
+}
+
 function NavigationEditor({ navigation, onChange, disabled, pages = [] }) {
   const [errors, setErrors] = useState({});
 
@@ -360,6 +493,8 @@ function NavigationEditor({ navigation, onChange, disabled, pages = [] }) {
 
   return (
     <div>
+      <NavPreview items={items} pages={publishedPages} defaultNav={DEFAULT_NAVIGATION} />
+
       {items.length === 0 && (
         <p style={{ color: '#6b7280', fontSize: '0.875rem', marginBottom: '12px' }}>
           No custom navigation configured. The website uses the default menu (Home, Collections, Events, News, Facilities).
