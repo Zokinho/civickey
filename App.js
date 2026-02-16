@@ -4,7 +4,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useEffect, useState, useCallback } from 'react';
 import { Text, Platform } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import ErrorBoundary from './src/components/ErrorBoundary';
 import { LanguageProvider, useLanguage } from './src/contexts/LanguageContext';
@@ -226,13 +226,15 @@ function AppContent() {
 export default function App() {
   return (
     <ErrorBoundary>
-      <ThemeProvider>
-        <LanguageProvider>
-          <MunicipalityProvider>
-            <AppContent />
-          </MunicipalityProvider>
-        </LanguageProvider>
-      </ThemeProvider>
+      <SafeAreaProvider>
+        <ThemeProvider>
+          <LanguageProvider>
+            <MunicipalityProvider>
+              <AppContent />
+            </MunicipalityProvider>
+          </LanguageProvider>
+        </ThemeProvider>
+      </SafeAreaProvider>
     </ErrorBoundary>
   );
 }
