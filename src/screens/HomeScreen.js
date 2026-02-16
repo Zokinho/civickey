@@ -2,6 +2,7 @@ import { View, Text, StyleSheet, SafeAreaView, TouchableOpacity, Alert, ScrollVi
 import { useState, useCallback, useEffect } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { requestPermissions, scheduleCollectionReminder } from '../utils/notifications';
 import { useLanguage } from '../hooks/useLanguage';
@@ -38,6 +39,7 @@ export default function HomeScreen() {
   const { zoneId, zones, schedule, events, config, getZoneSchedule, getThemeColors, getUpcomingSpecialCollections } = useMunicipality();
   const { colors: themeColors, isDark } = useTheme();
   const { requestReview } = useAppRating();
+  const insets = useSafeAreaInsets();
 
   // Check if we should prompt for app review
   useEffect(() => {
@@ -514,7 +516,7 @@ export default function HomeScreen() {
                 </ScrollView>
 
                 <TouchableOpacity
-                  style={[styles.closeButton, { backgroundColor: colors.primary }]}
+                  style={[styles.closeButton, { backgroundColor: colors.primary, marginBottom: 20 + insets.bottom }]}
                   onPress={() => setModalVisible(false)}
                 >
                   <Text style={styles.closeButtonText}>{t('close')}</Text>
@@ -589,7 +591,7 @@ export default function HomeScreen() {
                 </ScrollView>
 
                 <TouchableOpacity
-                  style={[styles.closeButton, { backgroundColor: colors.primary }]}
+                  style={[styles.closeButton, { backgroundColor: colors.primary, marginBottom: 20 + insets.bottom }]}
                   onPress={() => setClosureModalVisible(false)}
                 >
                   <Text style={styles.closeButtonText}>{t('close')}</Text>

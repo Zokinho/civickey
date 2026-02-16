@@ -1,5 +1,6 @@
 import { View, Text, StyleSheet, SafeAreaView, TouchableOpacity, Alert, Modal, ScrollView, Linking } from 'react-native';
 import { useEffect, useState } from 'react';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useLanguage } from '../hooks/useLanguage';
 import { getNotificationPrefs, setNotificationPrefs, sendTestNotification } from '../utils/notifications';
@@ -28,6 +29,8 @@ export default function SettingsScreen({ navigation, onReset }) {
   const { language, changeLanguage, t } = useLanguage();
   const { zoneId, zones, config, selectZone, clearSelection, refreshMunicipalityData, getThemeColors } = useMunicipality();
   const { themePreference, setTheme, colors: themeColors, isDark } = useTheme();
+
+  const insets = useSafeAreaInsets();
 
   // Get municipality theme colors
   const colors = getThemeColors();
@@ -290,7 +293,7 @@ export default function SettingsScreen({ navigation, onReset }) {
               </TouchableOpacity>
             </View>
 
-            <ScrollView style={styles.timeList}>
+            <ScrollView style={styles.timeList} contentContainerStyle={{ paddingBottom: insets.bottom }}>
               <Text style={[styles.timeGroupTitle, { color: themeColors.textSecondary }]}>{t('eveningBefore')}</Text>
               {EVENING_TIMES.map((time) => (
                 <TouchableOpacity

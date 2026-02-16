@@ -1,5 +1,6 @@
 import { View, Text, StyleSheet, SafeAreaView, ScrollView, TouchableOpacity, Modal, Linking } from 'react-native';
 import { useState } from 'react';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useLanguage } from '../hooks/useLanguage';
 import { useMunicipality } from '../contexts/MunicipalityContext';
@@ -21,6 +22,7 @@ export default function ScheduleScreen() {
   const { language, t } = useLanguage();
   const { zoneId, zones, schedule, config, getZoneSchedule, getThemeColors, getUpcomingSpecialCollections } = useMunicipality();
   const { colors: themeColors, isDark } = useTheme();
+  const insets = useSafeAreaInsets();
 
   // Get theme colors from municipality config
   const colors = getThemeColors();
@@ -344,7 +346,7 @@ export default function ScheduleScreen() {
                 </ScrollView>
 
                 <TouchableOpacity
-                  style={[styles.closeButton, { backgroundColor: colors.primary }]}
+                  style={[styles.closeButton, { backgroundColor: colors.primary, marginBottom: 20 + insets.bottom }]}
                   onPress={() => setModalVisible(false)}
                 >
                   <Text style={styles.closeButtonText}>{t('close')}</Text>

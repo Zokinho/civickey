@@ -2,8 +2,9 @@ import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useEffect, useState, useCallback } from 'react';
-import { Text } from 'react-native';
+import { Text, Platform } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import ErrorBoundary from './src/components/ErrorBoundary';
 import { LanguageProvider, useLanguage } from './src/contexts/LanguageContext';
@@ -29,6 +30,9 @@ function TabNavigator({ onReset }) {
   const { t } = useLanguage();
   const { colors: themeColors } = useTheme();
   const municipalityColors = getThemeColors();
+  const insets = useSafeAreaInsets();
+
+  const bottomPadding = Math.max(insets.bottom, Platform.OS === 'ios' ? 20 : 10);
 
   return (
     <Tab.Navigator
@@ -39,9 +43,9 @@ function TabNavigator({ onReset }) {
         tabBarStyle: {
           backgroundColor: themeColors.tabBar,
           borderTopColor: themeColors.tabBarBorder,
-          paddingBottom: 20,
+          paddingBottom: bottomPadding,
           paddingTop: 10,
-          height: 80,
+          height: 60 + bottomPadding,
         },
         tabBarLabelStyle: {
           fontSize: 12,

@@ -1,6 +1,7 @@
 import { View, Text, StyleSheet, SafeAreaView, TouchableOpacity, ScrollView, Modal, Image, RefreshControl } from 'react-native';
 import { useState, useCallback } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useLanguage } from '../hooks/useLanguage';
 import { useRoadClosures } from '../hooks/useRoadClosures';
@@ -14,6 +15,7 @@ export default function RoadClosuresScreen() {
   const { closures, loading, refresh } = useRoadClosures();
   const { getThemeColors } = useMunicipality();
 
+  const insets = useSafeAreaInsets();
   const colors = getThemeColors();
 
   // Refresh data when screen comes into focus
@@ -211,7 +213,7 @@ export default function RoadClosuresScreen() {
                 </ScrollView>
 
                 <TouchableOpacity
-                  style={[styles.closeButton, { backgroundColor: colors.primary }]}
+                  style={[styles.closeButton, { backgroundColor: colors.primary, marginBottom: 20 + insets.bottom }]}
                   onPress={() => setModalVisible(false)}
                 >
                   <Text style={styles.closeButtonText}>{t('close')}</Text>
