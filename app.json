@@ -2,7 +2,7 @@
   "expo": {
     "name": "CivicKey",
     "slug": "civickey",
-    "version": "1.0.3",
+    "version": "1.0.4",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -15,7 +15,7 @@
     "ios": {
       "supportsTablet": false,
       "bundleIdentifier": "ca.civickey.app",
-      "buildNumber": "4",
+      "buildNumber": "5",
       "infoPlist": {
         "NSCameraUsageDescription": "CivicKey needs camera access to scan QR codes.",
         "NSPhotoLibraryUsageDescription": "CivicKey needs photo library access to upload images.",
@@ -24,7 +24,7 @@
     },
     "android": {
       "package": "ca.civickey.app",
-      "versionCode": 4,
+      "versionCode": 5,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#0D5C63"
