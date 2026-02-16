@@ -21,7 +21,8 @@ import SettingsScreen from './src/screens/SettingsScreen';
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
-const STORAGE_KEY = '@civickey_zone';
+const LEGACY_ZONE_KEY = '@civickey_zone';
+const ZONE_KEY = '@civickey_zone_id';
 
 function TabNavigator({ onReset }) {
   const { getThemeColors } = useMunicipality();
@@ -115,8 +116,11 @@ function AppContent() {
 
   const checkZone = useCallback(async () => {
     try {
-      const zone = await AsyncStorage.getItem(STORAGE_KEY);
-      setHasZone(zone !== null);
+      const [zone, legacyZone] = await Promise.all([
+        AsyncStorage.getItem(ZONE_KEY),
+        AsyncStorage.getItem(LEGACY_ZONE_KEY),
+      ]);
+      setHasZone(zone !== null || legacyZone !== null);
     } catch (e) {
       console.error('Failed to load zone', e);
     } finally {
@@ -168,7 +172,7 @@ function AppContent() {
   const handleReset = async () => {
     // Clear both municipality and zone
     await clearSelection();
-    await AsyncStorage.removeItem(STORAGE_KEY);
+    await AsyncStorage.multiRemove([ZONE_KEY, LEGACY_ZONE_KEY]);
     setHasMunicipality(false);
     setHasZone(false);
     setSelectedProvince(null);
