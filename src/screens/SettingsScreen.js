@@ -2,6 +2,7 @@ import { View, Text, StyleSheet, SafeAreaView, TouchableOpacity, Alert, Modal, S
 import { useEffect, useState } from 'react';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import Constants from 'expo-constants';
 import { useLanguage } from '../hooks/useLanguage';
 import { getNotificationPrefs, setNotificationPrefs, sendTestNotification } from '../utils/notifications';
 import { useMunicipality } from '../contexts/MunicipalityContext';
@@ -224,7 +225,7 @@ export default function SettingsScreen({ navigation, onReset }) {
           <Text style={[styles.sectionTitle, { color: themeColors.textSecondary }]}>{t('about')}</Text>
           <View style={[styles.settingRow, { backgroundColor: themeColors.card }]}>
             <Text style={[styles.settingLabel, { color: themeColors.text }]}>{t('version')}</Text>
-            <Text style={[styles.settingValue, { color: themeColors.textSecondary }]}>1.0.0</Text>
+            <Text style={[styles.settingValue, { color: themeColors.textSecondary }]}>{Constants.expoConfig?.version || '1.0.0'}</Text>
           </View>
           <View style={[styles.settingRow, { backgroundColor: themeColors.card }]}>
             <Text style={[styles.settingLabel, { color: themeColors.text }]}>{t('municipality')}</Text>
