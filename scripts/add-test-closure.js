@@ -2,13 +2,14 @@
 const { initializeApp } = require('firebase/app');
 const { getFirestore, collection, addDoc, serverTimestamp } = require('firebase/firestore');
 
+// Copy values from Firebase Console > Project Settings
 const firebaseConfig = {
-  apiKey: "REDACTED",
-  authDomain: "REDACTED_AUTH_DOMAIN",
-  projectId: "civickey-prod",
-  storageBucket: "REDACTED_STORAGE_BUCKET",
-  messagingSenderId: "REDACTED_SENDER_ID",
-  appId: "1:REDACTED_SENDER_ID:web:28806abe5d16d574532f2b"
+  apiKey: "",
+  authDomain: "",
+  projectId: "",
+  storageBucket: "",
+  messagingSenderId: "",
+  appId: ""
 };
 
 const app = initializeApp(firebaseConfig);

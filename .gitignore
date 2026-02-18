@@ -31,8 +31,24 @@ yarn-error.*
 *.pem
 
 # local env files
-.env*.local
+.env
+.env.local
+.env.production
+.env.*
+!.env.example
 civickey-website-builder/.env.local
+
+# Firebase service accounts & secrets
+firebase-adminsdk*.json
+*service-account*.json
+serviceAccountKey*.json
+google-services.json
+GoogleService-Info.plist
+
+# API keys & credentials
+*.secret
+credentials.json
+secrets.json
 
 # typescript
 *.tsbuildinfo

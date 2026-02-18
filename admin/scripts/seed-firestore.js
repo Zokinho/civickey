@@ -12,15 +12,15 @@ import { initializeApp } from 'firebase/app';
 import { getFirestore, doc, setDoc, collection, Timestamp } from 'firebase/firestore';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 
-// Your Firebase config - same as admin console
+// Your Firebase config - copy values from Firebase Console > Project Settings
 const firebaseConfig = {
-  apiKey: "REDACTED",
-  authDomain: "REDACTED_AUTH_DOMAIN",
-  projectId: "civickey-prod",
-  storageBucket: "REDACTED_STORAGE_BUCKET",
-  messagingSenderId: "REDACTED_SENDER_ID",
-  appId: "1:REDACTED_SENDER_ID:web:28806abe5d16d574532f2b",
-  measurementId: "REDACTED_MEASUREMENT_ID"
+  apiKey: "",
+  authDomain: "",
+  projectId: "",
+  storageBucket: "",
+  messagingSenderId: "",
+  appId: "",
+  measurementId: ""
 };
 
 // Your super-admin credentials - UPDATE THESE BEFORE RUNNING
