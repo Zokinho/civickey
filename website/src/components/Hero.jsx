@@ -19,7 +19,7 @@ export default function Hero() {
           </div>
 
           <div className="app-stores">
-            <a href="#" className="store-badge" aria-label="App Store">
+            <a href="https://apps.apple.com/ca/app/civickey/id6758923541" target="_blank" rel="noopener noreferrer" className="store-badge" aria-label="App Store">
               <svg viewBox="0 0 180 60" className="badge-svg">
                 <rect width="180" height="60" rx="8" fill="#000"/>
                 <g fill="#fff">
@@ -30,7 +30,6 @@ export default function Hero() {
                   <text x="55" y="42" fontFamily="Arial, sans-serif" fontSize="18" fontWeight="600" fill="#fff">{t.hero.appStore.title}</text>
                 </g>
               </svg>
-              <span className="coming-soon-badge">{t.hero.comingSoon}</span>
             </a>
             <a href="#" className="store-badge" aria-label="Google Play">
               <svg viewBox="0 0 180 60" className="badge-svg">
