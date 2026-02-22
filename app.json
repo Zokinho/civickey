@@ -24,7 +24,7 @@
     },
     "android": {
       "package": "ca.civickey.app",
-      "versionCode": 5,
+      "versionCode": 6,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#0D5C63"
