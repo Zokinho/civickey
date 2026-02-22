@@ -7,9 +7,10 @@ const screenshots = [
   { src: '/screenshots/screen1.png', alt: 'Home Screen', labelEn: 'Home', labelFr: 'Accueil' },
   { src: '/screenshots/screen2.png', alt: 'Collection Schedule', labelEn: 'Schedule', labelFr: 'Collectes' },
   { src: '/screenshots/screen3.png', alt: 'What Goes Where Search', labelEn: 'What Goes Where', labelFr: 'Où ça va?' },
-  { src: '/screenshots/screen4.png', alt: 'Facilities', labelEn: 'Facilities', labelFr: 'Installations' },
-  { src: '/screenshots/screen5.png', alt: 'Events', labelEn: 'Events', labelFr: 'Événements' },
-  { src: '/screenshots/screen6.png', alt: 'Dark Mode', labelEn: 'Dark Mode', labelFr: 'Mode sombre' },
+  { src: '/screenshots/screen4.png', alt: 'Events', labelEn: 'Events', labelFr: 'Événements' },
+  { src: '/screenshots/screen5.png', alt: 'Facilities', labelEn: 'Facilities', labelFr: 'Installations' },
+  { src: '/screenshots/screen6.png', alt: 'Facility Details', labelEn: 'Facility Details', labelFr: 'Détails' },
+  { src: '/screenshots/screen7.png', alt: 'Dark Mode', labelEn: 'Dark Mode', labelFr: 'Mode sombre' },
 ];
 
 export default function Screenshots() {
