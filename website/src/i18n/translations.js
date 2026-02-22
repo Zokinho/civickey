@@ -131,6 +131,7 @@ export const translations = {
       privacy: 'Privacy Policy',
       terms: 'Terms of Service',
       copyright: '© {year} CivicKey. All rights reserved.',
+      veloxia: 'A {link} product',
     },
   },
   fr: {
@@ -265,6 +266,7 @@ export const translations = {
       privacy: 'Politique de confidentialité',
       terms: 'Conditions d\'utilisation',
       copyright: '© {year} CivicKey. Tous droits réservés.',
+      veloxia: 'Un produit {link}',
     },
   },
 };

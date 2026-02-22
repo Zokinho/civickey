@@ -32,6 +32,11 @@ export default function Footer() {
 
         <div className="footer-bottom">
           <p>{t.footer.copyright.replace('{year}', currentYear)}</p>
+          <p className="footer-veloxia">
+            {t.footer.veloxia.split('{link}')[0]}
+            <a href="https://veloxia.ca" target="_blank" rel="noopener noreferrer">Veloxia</a>
+            {t.footer.veloxia.split('{link}')[1]}
+          </p>
         </div>
       </div>
     </footer>

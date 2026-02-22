@@ -1,9 +1,18 @@
 // Manages selected municipality state and data caching
 import { createContext, useContext, useEffect, useState, useCallback, useMemo } from 'react';
+import { Alert, Platform } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { fetchMunicipalityData, getAllMunicipalities } from '../services/municipalityService';
 
 const MunicipalityContext = createContext(null);
+
+// Wrap a promise with a timeout
+function withTimeout(promise, ms) {
+  return Promise.race([
+    promise,
+    new Promise((_, reject) => setTimeout(() => reject(new Error(`Request timed out after ${ms}ms`)), ms)),
+  ]);
+}
 
 const STORAGE_KEYS = {
   MUNICIPALITY_ID: '@civickey_municipality_id',
@@ -73,7 +82,7 @@ export function MunicipalityProvider({ children }) {
 
         // Fetch fresh data if cache expired or missing
         if (needsFetch) {
-          const data = await fetchMunicipalityData(effectiveMunicipalityId);
+          const data = await withTimeout(fetchMunicipalityData(effectiveMunicipalityId), 15000);
           data.cacheVersion = CACHE_VERSION;
           setMunicipalityData(data);
           await AsyncStorage.setItem(STORAGE_KEYS.MUNICIPALITY_DATA, JSON.stringify(data));
@@ -81,7 +90,11 @@ export function MunicipalityProvider({ children }) {
       }
     } catch (err) {
       console.error('Error loading saved state:', err);
-      setError('Failed to load saved settings');
+      setError(err.message || 'Failed to load saved settings');
+      Alert.alert(
+        'Connection Error',
+        `Could not load municipality data: ${err.message}. Please check your internet connection and restart the app.`
+      );
     } finally {
       setLoading(false);
     }
@@ -90,13 +103,20 @@ export function MunicipalityProvider({ children }) {
   // Fetch municipalities list for selection screen
   const loadMunicipalitiesList = useCallback(async () => {
     try {
-      const list = await getAllMunicipalities();
+      setLoading(true);
+      const list = await withTimeout(getAllMunicipalities(), 15000);
       setMunicipalitiesList(list);
       return list;
     } catch (err) {
       console.error('Error loading municipalities:', err);
-      setError('Failed to load municipalities');
+      setError(err.message || 'Failed to load municipalities');
+      Alert.alert(
+        'Connection Error',
+        `Could not load municipalities: ${err.message}. Please check your internet connection and try again.`
+      );
       return [];
+    } finally {
+      setLoading(false);
     }
   }, []);
 

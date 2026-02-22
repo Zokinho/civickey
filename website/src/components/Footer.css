@@ -64,6 +64,16 @@
   font-size: 0.875rem;
 }
 
+.footer-veloxia a {
+  color: rgba(255, 255, 255, 0.7);
+  text-decoration: underline;
+  transition: color var(--transition-fast);
+}
+
+.footer-veloxia a:hover {
+  color: white;
+}
+
 @media (max-width: 768px) {
   .footer-content {
     flex-direction: column;
