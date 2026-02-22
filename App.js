@@ -2,7 +2,7 @@ import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useEffect, useState, useCallback } from 'react';
-import { Text, Platform } from 'react-native';
+import { Text, TextInput, Platform } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -18,6 +18,12 @@ import ScheduleScreen from './src/screens/ScheduleScreen';
 import EventsScreen from './src/screens/EventsScreen';
 import FacilitiesScreen from './src/screens/FacilitiesScreen';
 import SettingsScreen from './src/screens/SettingsScreen';
+
+// Cap font scaling to prevent layout overflow on devices with large font/zoom settings
+Text.defaultProps = Text.defaultProps || {};
+Text.defaultProps.maxFontSizeMultiplier = 1.2;
+TextInput.defaultProps = TextInput.defaultProps || {};
+TextInput.defaultProps.maxFontSizeMultiplier = 1.2;
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
